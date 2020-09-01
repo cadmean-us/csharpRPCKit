@@ -4,5 +4,10 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Cadmean.RPC.ASP\Cadmean.RPC.ASP.csproj" />
+      <ProjectReference Include="..\Cadmean.RPC\Cadmean.RPC.csproj" />
+    </ItemGroup>
+
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿namespace Cadmean.RPC
 {
-    public class IFunctionUrlProvider
+    public interface IFunctionUrlProvider
     {
-        
+        public string GetUrl(Function f);
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Cadmean.RPC
 {
-    public class FunctionCall
+    public struct FunctionCall
     {
-        
+        public object[] Arguments { get; set; }
     }
 }
