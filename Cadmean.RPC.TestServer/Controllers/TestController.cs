@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Cadmean.RPC.ASP;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +9,9 @@ namespace Cadmean.RPC.TestServer.Controllers
     public class TestController : FunctionController
     {
 
-        int OnCall(int a, int b)
+        public Task<long> OnCall(long a, long b)
         {
-            return a + b;
+            return Task.FromResult(a + b);
         }
     }
 }

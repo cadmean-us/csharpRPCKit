@@ -3,7 +3,7 @@
     public class RpcServer
     {
         public readonly string Url;
-        public readonly RpcConfiguration Configuration = new RpcConfiguration();
+        public readonly RpcConfiguration Configuration = RpcConfiguration.Default;
 
         public RpcServer(string url)
         {

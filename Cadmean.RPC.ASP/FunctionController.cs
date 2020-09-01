@@ -1,18 +1,24 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Cadmean.RPC.ASP
 {
     public class FunctionController : ControllerBase
     {
         [HttpPost]
-        public async Task<FunctionOutput> Post([FromBody] FunctionCall call)
+        public async Task<FunctionOutput> Post()
         {
+            using var r = new StreamReader(Request.Body);
+            var str = await r.ReadToEndAsync();
+            Console.WriteLine(str);
+            var call = (FunctionCall) JsonConvert.DeserializeObject(str, typeof(FunctionCall));
             var t = GetType();
             var callMethod = t.GetMethod("OnCall");
-            if (CallMethodIsValid(callMethod))
+            if (!CallMethodIsValid(callMethod))
                 return FunctionOutput.WithError(1);
             var parameters = callMethod.GetParameters();
             var args = new object[parameters.Length];
@@ -24,7 +30,9 @@ namespace Cadmean.RPC.ASP
             object result;
             try
             {
-                result = await (Task<object>) callMethod.Invoke(this, args);
+                dynamic task = (Task) callMethod.Invoke(this, args);
+                await task;
+                result = task.GetAwaiter().GetResult();
             }
             catch (FunctionException ex)
             {

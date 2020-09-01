@@ -8,7 +8,7 @@ namespace Cadmean.RPC
         
         public string GetUrl(Function f)
         {
-            return $"/{HttpUtility.UrlEncode(Prefix)}/{f.Name}";
+            return $"{Prefix}/{f.Name}";
         }
     }
 }
