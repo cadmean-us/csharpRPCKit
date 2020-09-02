@@ -21,10 +21,19 @@ namespace Cadmean.RPC.ASP
             if (!CallMethodIsValid(callMethod))
                 return FunctionOutput.WithError(1);
             var parameters = callMethod.GetParameters();
-            var args = new object[parameters.Length];
-            for (int i = 0; i < Math.Min(parameters.Length, call.Arguments.Length); i++)
+            object[] args;
+
+            if (call.Arguments != null)
             {
-                args[i] = call.Arguments[i];
+                args= new object[parameters.Length];
+                for (int i = 0; i < Math.Min(parameters.Length, call.Arguments.Length); i++)
+                {
+                    args[i] = call.Arguments[i];
+                }
+            }
+            else
+            {
+                args = new object[0];
             }
 
             object result;
