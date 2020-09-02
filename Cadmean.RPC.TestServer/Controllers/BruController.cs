@@ -16,6 +16,7 @@ namespace Cadmean.RPC.TestServer.Controllers
 
         public Task<MyStruct> OnCall()
         {
+            // throw new FunctionException(69);
             return Task.FromResult(new MyStruct
             {
                 Name = "Georg",

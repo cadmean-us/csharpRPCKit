@@ -2,9 +2,15 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>0.0.1</PackageVersion>
+        <Title>Cadmean.RPC.ASP</Title>
+        <Description>Backend RPC library for ASP.NET Core</Description>
+        <Copyright>Cadmean</Copyright>
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Cadmean.RPC" Version="0.0.1" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     </ItemGroup>
 
