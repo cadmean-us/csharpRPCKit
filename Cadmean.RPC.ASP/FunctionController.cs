@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Cadmean.RPC.ASP
 {
@@ -28,7 +29,15 @@ namespace Cadmean.RPC.ASP
                 args= new object[parameters.Length];
                 for (int i = 0; i < Math.Min(parameters.Length, call.Arguments.Length); i++)
                 {
-                    args[i] = call.Arguments[i];
+                    var arg = call.Arguments[i];
+                    if (arg is JObject json)
+                    {
+                        args[i] = json.ToObject(parameters[i].ParameterType);
+                    }
+                    else
+                    {
+                         args[i] = arg;
+                    }
                 }
             }
             else
