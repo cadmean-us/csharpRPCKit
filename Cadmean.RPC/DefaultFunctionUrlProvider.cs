@@ -4,7 +4,7 @@ namespace Cadmean.RPC
 {
     public class DefaultFunctionUrlProvider : IFunctionUrlProvider
     {
-        public string Prefix = "";
+        public string Prefix = "api/rpc";
         
         public string GetUrl(Function f)
         {

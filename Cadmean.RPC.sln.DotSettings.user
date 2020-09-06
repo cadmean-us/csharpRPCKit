@@ -1,17 +1,17 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2becc44f_002Dd120_002D40b6_002Db435_002D69f72d465d73/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="Test1 #2" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2becc44f_002Dd120_002D40b6_002Db435_002D69f72d465d73/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test1 #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::CDDA21DC-91C5-4ED4-BC4D-B33577CB1ED3::.NETCoreApp,Version=v3.1::Cadmean.RPC.Tests.UnitTest1.Test1&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5b9e83c8_002Db2e0_002D4d82_002Da608_002D65145547abe0/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="Test1" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5b9e83c8_002Db2e0_002D4d82_002Da608_002D65145547abe0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::CDDA21DC-91C5-4ED4-BC4D-B33577CB1ED3::.NETCoreApp,Version=v3.1::Cadmean.RPC.Tests.UnitTest1.Test1&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::CDDA21DC-91C5-4ED4-BC4D-B33577CB1ED3::.NETCoreApp,Version=v3.1::Cadmean.RPC.Tests.JsonCodecProviderTests&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::CDDA21DC-91C5-4ED4-BC4D-B33577CB1ED3::.NETCoreApp,Version=v3.1::Cadmean.RPC.Tests.UnitTest1&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f849c3c6_002D8d1d_002D4af7_002Db2cd_002Da197506717b4/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="ShouldCallFunction1" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f849c3c6_002D8d1d_002D4af7_002Db2cd_002Da197506717b4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldCallFunction1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::CDDA21DC-91C5-4ED4-BC4D-B33577CB1ED3::.NETCoreApp,Version=v3.1::Cadmean.RPC.Tests.RpcServerTests.ShouldCallFunction1&lt;/TestId&gt;
   &lt;/TestAncestor&gt;

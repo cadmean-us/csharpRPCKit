@@ -10,40 +10,18 @@ namespace Cadmean.RPC.ASP
 {
     public class FunctionController : ControllerBase
     {
+        protected FunctionCall Call;
+        
         [HttpPost]
         public async Task<FunctionOutput> Post()
         {
-            using var r = new StreamReader(Request.Body);
-            var str = await r.ReadToEndAsync();
-            Console.WriteLine(str);
-            var call = (FunctionCall) JsonConvert.DeserializeObject(str, typeof(FunctionCall));
-            var t = GetType();
-            var callMethod = t.GetMethod("OnCall");
+            Call = await GetFunctionCall();
+            
+            var callMethod = GetCallMethod();
             if (!CallMethodIsValid(callMethod))
                 return FunctionOutput.WithError(1);
-            var parameters = callMethod.GetParameters();
-            object[] args;
 
-            if (call.Arguments != null)
-            {
-                args= new object[parameters.Length];
-                for (int i = 0; i < Math.Min(parameters.Length, call.Arguments.Length); i++)
-                {
-                    var arg = call.Arguments[i];
-                    if (arg is JObject json)
-                    {
-                        args[i] = json.ToObject(parameters[i].ParameterType);
-                    }
-                    else
-                    {
-                         args[i] = arg;
-                    }
-                }
-            }
-            else
-            {
-                args = new object[0];
-            }
+            var args = GetArguments(callMethod);
 
             object result;
             try
@@ -56,7 +34,7 @@ namespace Cadmean.RPC.ASP
             {
                 return FunctionOutput.WithError(ex.Code);
             }
-            catch
+            catch 
             {
                 return FunctionOutput.WithError(3);
             }
@@ -67,6 +45,48 @@ namespace Cadmean.RPC.ASP
         private bool CallMethodIsValid(MethodInfo methodInfo)
         {
             return methodInfo != null && !methodInfo.IsAbstract;
+        }
+
+        private async Task<FunctionCall> GetFunctionCall()
+        {
+            using var r = new StreamReader(Request.Body);
+            var str = await r.ReadToEndAsync();
+            return (FunctionCall) JsonConvert.DeserializeObject(str, typeof(FunctionCall));
+        }
+
+        private MethodInfo GetCallMethod()
+        {
+            var t = GetType();
+            return t.GetMethod("OnCall");
+        }
+
+        private object[] GetArguments(MethodInfo callMethod)
+        {
+            var parameters = callMethod.GetParameters();
+            object[] args;
+
+            if (Call.Arguments != null)
+            {
+                args= new object[parameters.Length];
+                for (int i = 0; i < Math.Min(parameters.Length, Call.Arguments.Length); i++)
+                {
+                    var arg = Call.Arguments[i];
+                    if (arg is JObject json)
+                    {
+                        args[i] = json.ToObject(parameters[i].ParameterType);
+                    }
+                    else
+                    {
+                        args[i] = arg;
+                    }
+                }
+            }
+            else
+            {
+                args = new object[0];
+            }
+
+            return args;
         }
     }
 }
