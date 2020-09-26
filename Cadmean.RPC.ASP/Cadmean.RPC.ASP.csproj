@@ -3,11 +3,11 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.1.1</PackageVersion>
+        <PackageVersion>0.1.2</PackageVersion>
         <Title>Cadmean.RPC.ASP</Title>
         <Description>Backend RPC library for ASP.NET Core</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Refactor code</PackageReleaseNotes>
+        <PackageReleaseNotes>OnCall can now be private</PackageReleaseNotes>
         <Authors>Cadmean</Authors>
     </PropertyGroup>
 

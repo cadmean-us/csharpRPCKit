@@ -11,6 +11,11 @@
     &lt;TestId&gt;xUnit::CDDA21DC-91C5-4ED4-BC4D-B33577CB1ED3::.NETCoreApp,Version=v3.1::Cadmean.RPC.Tests.UnitTest1&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=761fbcf1_002D8623_002D4797_002D9339_002De065dc3f2891/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ShouldCallFunction1 #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::CDDA21DC-91C5-4ED4-BC4D-B33577CB1ED3::.NETCoreApp,Version=v3.1::Cadmean.RPC.Tests.RpcServerTests.ShouldCallFunction1&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f849c3c6_002D8d1d_002D4af7_002Db2cd_002Da197506717b4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldCallFunction1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::CDDA21DC-91C5-4ED4-BC4D-B33577CB1ED3::.NETCoreApp,Version=v3.1::Cadmean.RPC.Tests.RpcServerTests.ShouldCallFunction1&lt;/TestId&gt;

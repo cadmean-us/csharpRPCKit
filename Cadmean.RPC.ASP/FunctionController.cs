@@ -11,7 +11,7 @@ namespace Cadmean.RPC.ASP
     public class FunctionController : ControllerBase
     {
         protected FunctionCall Call;
-        
+
         [HttpPost]
         public async Task<FunctionOutput> Post()
         {
@@ -54,10 +54,18 @@ namespace Cadmean.RPC.ASP
             return (FunctionCall) JsonConvert.DeserializeObject(str, typeof(FunctionCall));
         }
 
+
+        private static MethodInfo callMethodCache;
+        
         private MethodInfo GetCallMethod()
         {
+            if (callMethodCache != null)
+                return callMethodCache;
+            
             var t = GetType();
-            return t.GetMethod("OnCall");
+            callMethodCache = t.GetMethod("OnCall", 
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            return callMethodCache;
         }
 
         private object[] GetArguments(MethodInfo callMethod)
