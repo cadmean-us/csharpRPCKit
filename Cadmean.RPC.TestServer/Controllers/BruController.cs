@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Cadmean.RPC.TestServer.Controllers
 {
     [ApiController]
-    [Route("/api/v1/bru")]
+    [Route("/api/rpc/bru")]
     public class BruController : FunctionController
     {
         public class MyStruct

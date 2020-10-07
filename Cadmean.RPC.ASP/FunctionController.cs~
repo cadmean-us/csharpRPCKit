@@ -56,18 +56,13 @@ namespace Cadmean.RPC.ASP
 
         private MethodInfo GetCallMethod()
         {
-            var rpcService = HttpContext.Items["rpcService"] as RpcService ?? throw new RpcServerException("RPC service not found");
-            var functionName = HttpContext.Items["functionName"] as string;
-            var cached = rpcService.GetCachedFunction(functionName);
-
-            if (cached != null)
-                return cached;
+            var rpcService = HttpContext.Items["rpcService"] as RpcService;
+            var cached = rpcService.GetCachedFunction()
             
             var t = GetType();
-            var methodInfo = t.GetMethod("OnCall", 
+            callMethodCache = t.GetMethod("OnCall", 
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            rpcService.CacheFunction(functionName, methodInfo);
-            return methodInfo;
+            return callMethodCache;
         }
 
         private object[] GetArguments(MethodInfo callMethod)

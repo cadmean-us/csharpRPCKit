@@ -24,11 +24,15 @@ namespace Cadmean.RPC.Tests
         public async void ShouldCallFunction1()
         {
             var rpc = new RpcServer("https://localhost:5001");
-            ((DefaultFunctionUrlProvider) rpc.Configuration.FunctionUrlProvider).Prefix = "api/v1";
+            
             var f = rpc.Function("bru");
+            
             testOutputHelper.WriteLine(rpc.Configuration.FunctionUrlProvider.GetUrl(rpc.Function("bru")));
+            
             var output = await f.Call();
+            
             Assert.Equal(0, output.Error);
+            
             testOutputHelper.WriteLine(output.Result.GetType().ToString());
             testOutputHelper.WriteLine(output.Result.ToString());
         }
