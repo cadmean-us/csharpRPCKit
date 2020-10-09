@@ -1,9 +1,15 @@
-﻿namespace Cadmean.RPC
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace Cadmean.RPC
 {
     public struct FunctionOutput<TResult>
     {
         public int Error { get; set; }
         public TResult Result { get; set; }
+        
+        [JsonProperty("meta", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Dictionary<string, object> MetaData { get; set; }
 
         public static FunctionOutput WithError(int error)
         {
@@ -28,6 +34,9 @@
     {
         public int Error { get; set; }
         public object Result { get; set; }
+        
+        [JsonProperty("meta", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Dictionary<string, object> MetaData { get; set; }
         
         public static FunctionOutput WithError(int error)
         {

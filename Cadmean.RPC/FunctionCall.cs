@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Cadmean.RPC
 {
@@ -9,5 +10,8 @@ namespace Cadmean.RPC
         
         [JsonProperty("auth", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Authorization { get; set; }
+        
+        [JsonProperty("meta", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Dictionary<string, object> MetaData { get; set; }
     }
 }
