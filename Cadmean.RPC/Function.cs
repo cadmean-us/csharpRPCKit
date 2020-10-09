@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cadmean.RPC
 {
@@ -16,13 +17,17 @@ namespace Cadmean.RPC
         public async Task<FunctionOutput> Call(params object[] functionArguments)
         {
             var responseData = await ConstructCallAndSend(functionArguments);
-            return server.Configuration.Codec.Decode<FunctionOutput>(responseData);
+            var output = server.Configuration.Codec.Decode<FunctionOutput>(responseData);
+            ProcessMetaData(output);
+            return output;
         }
 
         public async Task<FunctionOutput<TResult>> Call<TResult>(params object[] functionArguments)
         {
             var responseData = await ConstructCallAndSend(functionArguments);
-            return server.Configuration.Codec.Decode<FunctionOutput<TResult>>(responseData);
+            var output = server.Configuration.Codec.Decode<FunctionOutput<TResult>>(responseData);
+            ProcessMetaData(output);
+            return output;
         }
 
         private async Task<byte[]> ConstructCallAndSend(object[] functionArguments)
@@ -30,11 +35,8 @@ namespace Cadmean.RPC
             var call = new FunctionCall
             {
                 Arguments = functionArguments,
-            };
-            if (server.Configuration.AuthorizationProvider != null)
-            {
-                call.Authorization = server.Configuration.AuthorizationProvider.Authorize();
-            }
+            }; 
+            AuthorizeCallIfPossible(call);
             return await SendCall(call);
         }
 
@@ -47,6 +49,38 @@ namespace Cadmean.RPC
                 data, 
                 server.Configuration.Codec.ContentType
             );
+        }
+
+        private void AuthorizeCallIfPossible(FunctionCall call)
+        {
+            call.Authorization = server.Configuration.AuthorizationTicketHolder?.Ticket.AccessToken;
+        }
+
+        private void ProcessMetaData(FunctionOutput output)
+        {
+            var meta = output.MetaData;
+            if (meta == null) return;
+
+            if (meta["authentication-success"] is bool b && b && 
+                output.Result is Dictionary<string, object> ticketDictionary && 
+                ticketDictionary.ContainsKey("accessToken") && ticketDictionary["accessToken"] is string accessToken &&
+                ticketDictionary.ContainsKey("refreshToken") && ticketDictionary["refreshToken"] is string refreshToken)
+            {
+                var ticket = new JwtAuthorizationTicket(accessToken, refreshToken);
+                server.Configuration.AuthorizationTicketHolder.Ticket = ticket;
+            }
+        }
+
+        private void ProcessMetaData<T>(FunctionOutput<T> output)
+        {
+            var meta = output.MetaData;
+            if (meta == null) return;
+
+            if (meta["authentication-success"] is bool b && b && 
+                output.Result is JwtAuthorizationTicket ticket)
+            {
+                server.Configuration.AuthorizationTicketHolder.Ticket = ticket;
+            }
         }
     }
 }

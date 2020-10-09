@@ -1,6 +1,6 @@
 ﻿namespace Cadmean.RPC
 {
-    public class TransientAuthorizationHolder : IAuthorizationTicketHolder
+    public class TransientAuthorizationTicketHolder : IAuthorizationTicketHolder
     {
         public JwtAuthorizationTicket Ticket { get; set; }
     }
