@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Cadmean.RPC.ASP\Cadmean.RPC.ASP.csproj" />
+      <ProjectReference Include="..\Cadmean.RPC.Tests\Cadmean.RPC.Tests.csproj" />
       <ProjectReference Include="..\Cadmean.RPC\Cadmean.RPC.csproj" />
     </ItemGroup>
 

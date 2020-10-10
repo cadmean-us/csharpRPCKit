@@ -13,9 +13,9 @@ namespace Cadmean.RPC.Tests
             rpc = new RpcClient("https://localhost:5001");
         }
 
-        private async void ShouldThrowExceptionWhenServerNotResponding()
-        {
-            
-        }
+        // private async void ShouldThrowExceptionWhenServerNotResponding()
+        // {
+        //     
+        // }
     }
 }

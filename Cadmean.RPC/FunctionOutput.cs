@@ -47,6 +47,11 @@ namespace Cadmean.RPC
             };
         }
         
+        public static FunctionOutput WithError(RpcErrorCode error)
+        {
+            return WithError((int) error);
+        }
+        
         public static FunctionOutput WithResult(object result)
         {
             return new FunctionOutput

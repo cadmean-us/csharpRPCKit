@@ -2,7 +2,7 @@ using System;
 
 namespace Cadmean.RPC.ASP
 {
-    public class FunctionException : Exception
+    public class FunctionException : RpcException
     {
         public readonly int Code;
         
