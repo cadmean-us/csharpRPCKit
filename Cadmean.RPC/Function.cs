@@ -6,18 +6,18 @@ namespace Cadmean.RPC
     public class Function
     {
         public readonly string Name;
-        private readonly RpcServer server;
+        private readonly RpcClient client;
 
-        internal Function(string name, RpcServer server)
+        internal Function(string name, RpcClient client)
         {
             Name = name;
-            this.server = server;
+            this.client = client;
         }
 
         public async Task<FunctionOutput> Call(params object[] functionArguments)
         {
             var responseData = await ConstructCallAndSend(functionArguments);
-            var output = server.Configuration.Codec.Decode<FunctionOutput>(responseData);
+            var output = client.Configuration.Codec.Decode<FunctionOutput>(responseData);
             ProcessMetaData(output);
             return output;
         }
@@ -25,7 +25,7 @@ namespace Cadmean.RPC
         public async Task<FunctionOutput<TResult>> Call<TResult>(params object[] functionArguments)
         {
             var responseData = await ConstructCallAndSend(functionArguments);
-            var output = server.Configuration.Codec.Decode<FunctionOutput<TResult>>(responseData);
+            var output = client.Configuration.Codec.Decode<FunctionOutput<TResult>>(responseData);
             ProcessMetaData(output);
             return output;
         }
@@ -42,18 +42,18 @@ namespace Cadmean.RPC
 
         private async Task<byte[]> SendCall(FunctionCall call)
         {
-            var data = server.Configuration.Codec.Encode(call);
-            var url = $"{server.Url}/{server.Configuration.FunctionUrlProvider.GetUrl(this)}";
-            return await server.Configuration.Transport.Send(
+            var data = client.Configuration.Codec.Encode(call);
+            var url = $"{client.ServerUrl}/{client.Configuration.FunctionUrlProvider.GetUrl(this)}";
+            return await client.Configuration.Transport.Send(
                 url, 
                 data, 
-                server.Configuration.Codec.ContentType
+                client.Configuration.Codec.ContentType
             );
         }
 
         private void AuthorizeCallIfPossible(FunctionCall call)
         {
-            call.Authorization = server.Configuration.AuthorizationTicketHolder?.Ticket.AccessToken;
+            call.Authorization = client.Configuration.AuthorizationTicketHolder?.Ticket.AccessToken;
         }
 
         private void ProcessMetaData(FunctionOutput output)
@@ -67,7 +67,7 @@ namespace Cadmean.RPC
                 ticketDictionary.ContainsKey("refreshToken") && ticketDictionary["refreshToken"] is string refreshToken)
             {
                 var ticket = new JwtAuthorizationTicket(accessToken, refreshToken);
-                server.Configuration.AuthorizationTicketHolder.Ticket = ticket;
+                client.Configuration.AuthorizationTicketHolder.Ticket = ticket;
             }
         }
 
@@ -79,7 +79,7 @@ namespace Cadmean.RPC
             if (meta["authentication-success"] is bool b && b && 
                 output.Result is JwtAuthorizationTicket ticket)
             {
-                server.Configuration.AuthorizationTicketHolder.Ticket = ticket;
+                client.Configuration.AuthorizationTicketHolder.Ticket = ticket;
             }
         }
     }

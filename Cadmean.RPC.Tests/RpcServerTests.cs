@@ -23,7 +23,7 @@ namespace Cadmean.RPC.Tests
         [Fact]
         public async void ShouldCallFunction1()
         {
-            var rpc = new RpcServer("https://localhost:5001");
+            var rpc = new RpcClient("https://localhost:5001");
             
             var f = rpc.Function("bru");
             

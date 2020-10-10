@@ -5,7 +5,7 @@ namespace Cadmean.RPC.TestServer.Controllers
 {
     [ApiController]
     [Route("api/rpc/test.addInt")]
-    public class TestAddInt : FunctionController
+    public class TestAddIntController : FunctionController
     {
         private int OnCall(int a, int b)
         {

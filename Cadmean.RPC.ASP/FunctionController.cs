@@ -39,7 +39,11 @@ namespace Cadmean.RPC.ASP
                 return FunctionOutput.WithError(3);
             }
             
-            return FunctionOutput.WithResult(result);
+            var output = FunctionOutput.WithResult(result);
+            
+            
+            
+            return output;
         }
 
         private bool CallMethodIsValid(MethodInfo methodInfo)
@@ -97,6 +101,17 @@ namespace Cadmean.RPC.ASP
             }
 
             return args;
+        }
+
+
+        private object ExecuteFunctionAsync(MethodInfo callMethod, object[] args)
+        {
+            
+        }
+
+        private void AddAuthenticationMetaData(FunctionOutput result)
+        {
+            
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿namespace Cadmean.RPC
 {
-    public class RpcServer
+    public class RpcClient
     {
-        public readonly string Url;
+        public readonly string ServerUrl;
         public readonly RpcConfiguration Configuration = RpcConfiguration.Default;
 
-        public RpcServer(string url)
+        public RpcClient(string serverUrl)
         {
-            Url = url;
+            ServerUrl = serverUrl;
         }
 
         public Function Function(string name)
