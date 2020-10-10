@@ -7,7 +7,7 @@
         <Title>Cadmean.RPC.ASP</Title>
         <Description>Backend RPC library for ASP.NET Core</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Fix caching</PackageReleaseNotes>
+        <PackageReleaseNotes>Added authorization</PackageReleaseNotes>
         <Authors>Cadmean</Authors>
     </PropertyGroup>
 

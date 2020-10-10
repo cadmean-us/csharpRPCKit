@@ -8,7 +8,7 @@
         <Authors>Cadmean</Authors>
         <Description>RPC library for calling API functions.</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Default function url prefix set to "api/rpc". </PackageReleaseNotes>
+        <PackageReleaseNotes>Added authorization</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
