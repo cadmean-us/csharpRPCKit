@@ -8,6 +8,7 @@
         InternalServerError,
         EncodingError,
         TransportError,
+        AuthorizationError,
         NiceError = 69,
         TeapotError = 418,
         CustomError = 100,

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,9 +13,9 @@ namespace Cadmean.RPC.ASP
 {
     public class FunctionController : ControllerBase
     {
-        protected FunctionCall Call;
-        protected RpcService RpcService;
-        protected string FunctionName;
+        protected FunctionCall Call { get; private set; }
+        protected RpcService RpcService { get; private set; }
+        protected string FunctionName { get; private set; }
 
         [HttpPost]
         public async Task<FunctionOutput> Post()
@@ -26,26 +28,12 @@ namespace Cadmean.RPC.ASP
             if (!CallMethodIsValid(callMethod))
                 return FunctionOutput.WithError(RpcErrorCode.FunctionNotCallable);
 
+            if (FunctionRequiresAuthorization(callMethod) && !ValidateAuthorizationToken())
+                return FunctionOutput.WithError(RpcErrorCode.AuthorizationError);
+            
             var args = GetArguments(callMethod);
 
-            object result;
-            try
-            {
-                if (IsMethodAsync(callMethod))
-                    result = await ExecuteFunctionAsync(callMethod, args);
-                else
-                    result = ExecuteFunctionSync(callMethod, args);
-            }
-            catch (FunctionException ex)
-            {
-                return FunctionOutput.WithError(ex.Code);
-            }
-            catch 
-            {
-                return FunctionOutput.WithError(RpcErrorCode.InternalServerError);
-            }
-            
-            var output = FunctionOutput.WithResult(result);
+            var output = await TryCallFunction(callMethod, args);
             return ProcessOutput(output);
         }
 
@@ -81,6 +69,24 @@ namespace Cadmean.RPC.ASP
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             RpcService.CacheFunction(FunctionName, methodInfo);
             return methodInfo;
+        }
+
+        private bool FunctionRequiresAuthorization(MethodInfo methodInfo)
+        {
+            if (!RpcService.Configuration.IsAuthorizationEnabled)
+                return false;
+            
+            var attributes = methodInfo.GetCustomAttributes();
+            return attributes.Any(attr =>
+                attr.GetType() == typeof(RpcAuthorizeAttribute) || attr.GetType() == typeof(AuthorizeAttribute));
+        }
+
+        private bool ValidateAuthorizationToken()
+        {
+            if (string.IsNullOrWhiteSpace(Call.Authorization))
+                return false;
+
+            return RpcService.Configuration.AuthorizationTokenValidator.Validate(Call.Authorization);
         }
 
         private object[] GetArguments(MethodInfo callMethod)
@@ -139,15 +145,37 @@ namespace Cadmean.RPC.ASP
         private bool IsMethodAsync(MethodInfo callMethod)
         {
             return callMethod.ReturnType.GetMethod(nameof(Task.GetAwaiter)) != null;
-            // var returnType = callMethod.ReturnType;
-            // if (returnType.IsGenericType)
-            // {
-            //     return returnType.IsAssignableFrom(typeof(Task));
-            // }
-            // else
-            // {
-            //     return returnType.IsAssignableFrom(typeof(Task));
-            // }
+        }
+
+        private async Task<FunctionOutput> TryCallFunction(MethodInfo callMethod, object[] args)
+        {
+            object result;
+            try
+            {
+                if (IsMethodAsync(callMethod))
+                    result = await ExecuteFunctionAsync(callMethod, args);
+                else
+                    result = ExecuteFunctionSync(callMethod, args);
+            }
+            catch (FunctionException ex)
+            {
+                return FunctionOutput.WithError(ex.Code);
+            }
+            catch (TargetInvocationException ex)
+            {
+                if (ex.InnerException is FunctionException fEx)
+                {
+                    return FunctionOutput.WithError(fEx.Code);
+                }
+                
+                return FunctionOutput.WithError(RpcErrorCode.InternalServerError);
+            }
+            catch 
+            {
+                return FunctionOutput.WithError(RpcErrorCode.InternalServerError);
+            }
+            
+            return FunctionOutput.WithResult(result);
         }
         
         private async Task<object> ExecuteFunctionAsync(MethodInfo callMethod, object[] args)

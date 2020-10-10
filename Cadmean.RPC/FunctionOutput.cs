@@ -7,8 +7,6 @@ namespace Cadmean.RPC
     {
         public int Error { get; set; }
         public TResult Result { get; set; }
-        
-        [JsonProperty("meta", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Dictionary<string, object> MetaData { get; set; }
 
         public static FunctionOutput WithError(int error)
@@ -34,8 +32,6 @@ namespace Cadmean.RPC
     {
         public int Error { get; set; }
         public object Result { get; set; }
-        
-        [JsonProperty("meta", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Dictionary<string, object> MetaData { get; set; }
         
         public static FunctionOutput WithError(int error)

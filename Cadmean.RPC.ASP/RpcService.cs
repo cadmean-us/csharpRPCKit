@@ -12,7 +12,7 @@ namespace Cadmean.RPC.ASP
 
         internal RpcService()
         {
-            Configuration = RpcServerConfiguration.Default;
+            Configuration = new RpcServerConfiguration();
         }
 
         internal RpcService(RpcServerConfiguration configuration)

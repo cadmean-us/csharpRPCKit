@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Cadmean.RPC
 {
@@ -35,8 +36,8 @@ namespace Cadmean.RPC
             var call = new FunctionCall
             {
                 Arguments = functionArguments,
-            }; 
-            AuthorizeCallIfPossible(call);
+                Authorization = AuthorizeCallIfPossible()
+            };
             return await SendCall(call);
         }
 
@@ -51,9 +52,9 @@ namespace Cadmean.RPC
             );
         }
 
-        private void AuthorizeCallIfPossible(FunctionCall call)
+        private string AuthorizeCallIfPossible()
         {
-            call.Authorization = client.Configuration.AuthorizationTicketHolder?.Ticket.AccessToken;
+            return client.Configuration.AuthorizationTicketHolder?.Ticket.AccessToken;
         }
 
         private void ProcessMetaData(FunctionOutput output)
@@ -61,10 +62,11 @@ namespace Cadmean.RPC
             var meta = output.MetaData;
             if (meta == null) return;
 
-            if (meta["authentication-success"] is bool b && b && 
-                output.Result is Dictionary<string, object> ticketDictionary && 
-                ticketDictionary.ContainsKey("accessToken") && ticketDictionary["accessToken"] is string accessToken &&
-                ticketDictionary.ContainsKey("refreshToken") && ticketDictionary["refreshToken"] is string refreshToken)
+            if (meta.ContainsKey("clrResultType") &&
+                meta["clrResultType"] is string s && s == "Cadmean.RPC.JwtAuthorizationTicket" && 
+                output.Result is JObject json && 
+                json.ContainsKey("accessToken") && json.GetValue("accessToken")?.Value<string>() is { } accessToken &&
+                json.ContainsKey("refreshToken") && json.GetValue("refreshToken")?.Value<string>() is { } refreshToken)
             {
                 var ticket = new JwtAuthorizationTicket(accessToken, refreshToken);
                 client.Configuration.AuthorizationTicketHolder.Ticket = ticket;
@@ -76,7 +78,8 @@ namespace Cadmean.RPC
             var meta = output.MetaData;
             if (meta == null) return;
 
-            if (meta["authentication-success"] is bool b && b && 
+            if (meta.ContainsKey("clrResultType") &&
+                meta["clrResultType"] is string s && s == "Cadmean.RPC.JwtAuthorizationTicket" && 
                 output.Result is JwtAuthorizationTicket ticket)
             {
                 client.Configuration.AuthorizationTicketHolder.Ticket = ticket;

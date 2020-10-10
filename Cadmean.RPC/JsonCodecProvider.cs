@@ -13,7 +13,13 @@ namespace Cadmean.RPC
 
         public object Decode(byte[] dada, Type outputType)
         {
-            return JsonConvert.DeserializeObject(Encoding.UTF8.GetString(dada), outputType);
+            var jsonStr = Encoding.UTF8.GetString(dada);
+            var obj = Activator.CreateInstance(outputType);
+            JsonConvert.PopulateObject(jsonStr, obj, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+            return obj;
         }
 
         public string ContentType => "application/json";

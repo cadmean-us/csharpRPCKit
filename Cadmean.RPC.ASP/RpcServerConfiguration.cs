@@ -1,14 +1,22 @@
-﻿namespace Cadmean.RPC.ASP
+﻿using System;
+
+namespace Cadmean.RPC.ASP
 {
-    public struct RpcServerConfiguration
+    public class RpcServerConfiguration
     {
         public const int SupportedCadmeanRpcVersion = 2;
-        public string FunctionNamePrefix;
+        
+        public string FunctionNamePrefix = "/api/rpc";
+        
         public bool AlwaysIncludeMetadata;
-
-        public static RpcServerConfiguration Default = new RpcServerConfiguration
+        
+        public IAuthorizationTokenValidator AuthorizationTokenValidator;
+        public bool IsAuthorizationEnabled => AuthorizationTokenValidator != null;
+        
+        
+        public void UseAuthorization(Func<string, bool> validator)
         {
-            FunctionNamePrefix = "/api/rpc"
-        };
+            AuthorizationTokenValidator = new DelegateAuthorizationTokenValidator(validator);
+        }
     }
 }

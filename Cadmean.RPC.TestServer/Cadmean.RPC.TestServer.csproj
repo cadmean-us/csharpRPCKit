@@ -10,5 +10,9 @@
       <ProjectReference Include="..\Cadmean.RPC\Cadmean.RPC.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Cadmean.CoreKit" Version="0.3.1" />
+    </ItemGroup>
+
 
 </Project>

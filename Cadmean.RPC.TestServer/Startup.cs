@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cadmean.CoreKit.Authentication;
 using Cadmean.RPC.ASP;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,11 @@ namespace Cadmean.RPC.TestServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddRpc();
+            services.AddRpc(rpcConfiguration =>
+            {
+                rpcConfiguration.UseAuthorization(token => 
+                    new JwtToken(token).Validate(JwtAuthorizationOptions.Default));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,13 +44,9 @@ namespace Cadmean.RPC.TestServer
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-            
             app.UseRpc();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
