@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadmean.RPC.TestServer", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadmean.RPC.Tests", "Cadmean.RPC.Tests\Cadmean.RPC.Tests.csproj", "{CDDA21DC-91C5-4ED4-BC4D-B33577CB1ED3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleRPCServer", "ExampleRPCServer\ExampleRPCServer.csproj", "{E7E88F1F-DEB6-4E47-862C-D294E408D1BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadmean.RPC.CLI", "Cadmean.RPC.CLI\Cadmean.RPC.CLI.csproj", "{A2416219-B35F-44A6-94A4-A3D5DECA93DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,13 @@ Global
 		{CDDA21DC-91C5-4ED4-BC4D-B33577CB1ED3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDDA21DC-91C5-4ED4-BC4D-B33577CB1ED3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDDA21DC-91C5-4ED4-BC4D-B33577CB1ED3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7E88F1F-DEB6-4E47-862C-D294E408D1BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7E88F1F-DEB6-4E47-862C-D294E408D1BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7E88F1F-DEB6-4E47-862C-D294E408D1BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7E88F1F-DEB6-4E47-862C-D294E408D1BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2416219-B35F-44A6-94A4-A3D5DECA93DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2416219-B35F-44A6-94A4-A3D5DECA93DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2416219-B35F-44A6-94A4-A3D5DECA93DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2416219-B35F-44A6-94A4-A3D5DECA93DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
