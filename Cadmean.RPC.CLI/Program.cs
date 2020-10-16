@@ -30,6 +30,8 @@ namespace Cadmean.RPC.CLI
         {
             Console.Write("Enter server url: ");
             var serverName = Console.ReadLine();
+            if (serverName == "")
+                serverName = "http://localhost:5000";
             Console.Write("Enter function name: ");
             var functionName = Console.ReadLine();
             Console.Write("Enter function arguments: ");

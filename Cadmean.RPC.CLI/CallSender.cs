@@ -13,11 +13,11 @@ namespace Cadmean.RPC.CLI
 
             try
             {
-                Console.WriteLine($"Calling function {functionName} at ${serverUrl}");
+                Console.WriteLine($"Calling function {functionName} at {serverUrl}");
                 var output = await client.Function(functionName).Call(ProcessArgs(functionArgs));
                 Console.WriteLine("Call finished");
                 Console.WriteLine($"Error: {output.Error}");
-                Console.WriteLine($"Result {output.Result}");
+                Console.WriteLine($"Result: {output.Result}");
             }
             catch (Exception ex)
             {
