@@ -32,6 +32,7 @@ namespace Cadmean.RPC.TestServer
             {
                 rpcConfiguration.UseAuthorization(token => 
                     new JwtToken(token).Validate(JwtAuthorizationOptions.Default));
+                rpcConfiguration.DebugMode = true;
             });
         }
 

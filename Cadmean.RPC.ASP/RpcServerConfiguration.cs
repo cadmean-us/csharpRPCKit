@@ -6,9 +6,10 @@ namespace Cadmean.RPC.ASP
     {
         public const int SupportedCadmeanRpcVersion = 2;
         
-        public string FunctionNamePrefix = "/api/rpc";
+        public string FunctionNamePrefix = "api/rpc";
         
         public bool AlwaysIncludeMetadata;
+        public bool DebugMode;
         
         public IAuthorizationTokenValidator AuthorizationTokenValidator;
         public bool IsAuthorizationEnabled => AuthorizationTokenValidator != null;

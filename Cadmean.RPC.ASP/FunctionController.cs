@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -17,18 +15,18 @@ namespace Cadmean.RPC.ASP
         protected RpcService RpcService { get; private set; }
         protected string FunctionName { get; private set; }
 
+        private CachedFunctionInfo functionInfo;
+
         [HttpPost]
         public async Task<FunctionOutput> Post()
         {
             Prepare();
             
             Call = await GetFunctionCall();
-            
-            var callMethod = GetCallMethod();
-            if (!CallMethodIsValid(callMethod))
-                return FunctionOutput.WithError(RpcErrorCode.FunctionNotCallable);
 
-            if (FunctionRequiresAuthorization(callMethod) && !ValidateAuthorizationToken())
+            var callMethod = functionInfo.CallMethod;
+
+            if (functionInfo.RequiresAuthorization && !ValidateAuthorizationToken())
                 return FunctionOutput.WithError(RpcErrorCode.AuthorizationError);
             
             var args = GetArguments(callMethod);
@@ -41,12 +39,9 @@ namespace Cadmean.RPC.ASP
         {
             RpcService = HttpContext.Items["rpcService"] as RpcService ?? 
                          throw new RpcServerException("RPC service not found");
-            FunctionName = HttpContext.Items["functionName"] as string;
-        }
-
-        private bool CallMethodIsValid(MethodInfo methodInfo)
-        {
-            return methodInfo != null && !methodInfo.IsAbstract;
+            functionInfo = HttpContext.Items["functionInfo"] as CachedFunctionInfo ??
+                           throw new RpcServerException("No cached function info");
+            FunctionName = functionInfo.Name;
         }
 
         private async Task<FunctionCall> GetFunctionCall()
@@ -55,30 +50,6 @@ namespace Cadmean.RPC.ASP
             var str = await r.ReadToEndAsync();
             // ReSharper disable once PossibleNullReferenceException
             return (FunctionCall) JsonConvert.DeserializeObject(str, typeof(FunctionCall));
-        }
-
-        private MethodInfo GetCallMethod()
-        {
-            var cached = RpcService.GetCachedFunction(FunctionName);
-
-            if (cached != null)
-                return cached;
-            
-            var t = GetType();
-            var methodInfo = t.GetMethod("OnCall", 
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            RpcService.CacheFunction(FunctionName, methodInfo);
-            return methodInfo;
-        }
-
-        private bool FunctionRequiresAuthorization(MethodInfo methodInfo)
-        {
-            if (!RpcService.Configuration.IsAuthorizationEnabled)
-                return false;
-            
-            var attributes = methodInfo.GetCustomAttributes();
-            return attributes.Any(attr =>
-                attr.GetType() == typeof(RpcAuthorizeAttribute) || attr.GetType() == typeof(AuthorizeAttribute));
         }
 
         private bool ValidateAuthorizationToken()
@@ -142,17 +113,14 @@ namespace Cadmean.RPC.ASP
             return arg;
         }
         
-        private bool IsMethodAsync(MethodInfo callMethod)
-        {
-            return callMethod.ReturnType.GetMethod(nameof(Task.GetAwaiter)) != null;
-        }
+        
 
         private async Task<FunctionOutput> TryCallFunction(MethodInfo callMethod, object[] args)
         {
             object result;
             try
             {
-                if (IsMethodAsync(callMethod))
+                if (functionInfo.IsCallMethodAsync)
                     result = await ExecuteFunctionAsync(callMethod, args);
                 else
                     result = ExecuteFunctionSync(callMethod, args);

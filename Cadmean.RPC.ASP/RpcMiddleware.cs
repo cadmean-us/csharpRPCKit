@@ -22,7 +22,7 @@ namespace Cadmean.RPC.ASP
             var headers = request.Headers;
             var pathStr = request.Path.Value;
 
-            if (!IsValidRpcPath(pathStr))
+            if (!FunctionPathParser.IsValidRpcPath(pathStr, rpcService.Configuration))
             {
                 await next.Invoke(context);
                 return;
@@ -35,8 +35,18 @@ namespace Cadmean.RPC.ASP
                 return;
             }
             
+            var fName = FunctionPathParser.GetFunctionName(pathStr, rpcService.Configuration);
+            var functionInfo = rpcService.GetCachedFunctionInfo(fName);
+
+            if (functionInfo == null)
+            {
+                response.StatusCode = 404;
+                await response.WriteAsync("Function not found");
+                return;
+            }
+            
             context.Items["rpcService"] = rpcService;
-            context.Items["functionName"] = ResolveFunctionName(pathStr);
+            context.Items["functionInfo"] = functionInfo;
 
             await next.Invoke(context);
         }
@@ -48,24 +58,6 @@ namespace Cadmean.RPC.ASP
             
             var rpcVersionHeaderValue = Convert.ToInt32(headers["Cadmean-RPC-Version"][0]);
             return rpcVersionHeaderValue == RpcServerConfiguration.SupportedCadmeanRpcVersion;
-        }
-
-        private bool IsValidRpcPath(string path)
-        {
-            if (!path.StartsWith(rpcService.Configuration.FunctionNamePrefix))
-                return false;
-           
-            var tokens = path.Split('/');
-            if (tokens.Length < 4)
-                return false;
-
-            return true;
-        }
-
-        private string ResolveFunctionName(string path)
-        {
-            var tokens = path.Split('/');
-            return tokens[3];
         }
     }
 }
