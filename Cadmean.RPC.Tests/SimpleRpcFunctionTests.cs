@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using Xunit;
 using Xunit.Abstractions;
@@ -65,6 +66,18 @@ namespace Cadmean.RPC.Tests
             const bool expected = false;
             const int expectedError = 0;
             var output = await rpc.Function("test.invertBool").Call<bool>(b);
+            Assert.Equal(expectedError, output.Error);
+            var actual = output.Result;
+            testOutputHelper.WriteLine(actual.ToString());
+            Assert.Equal(expected, actual);
+        }
+        
+        [Fact]
+        public async void ShouldCallTestFunction_GetDate()
+        {
+            var expected = new DateTime(2020, 10, 24, 22, 15, 0);
+            const int expectedError = 0;
+            var output = await rpc.Function("test.getDate").Call<DateTime>();
             Assert.Equal(expectedError, output.Error);
             var actual = output.Result;
             testOutputHelper.WriteLine(actual.ToString());
