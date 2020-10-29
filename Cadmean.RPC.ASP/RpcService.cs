@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
 
 namespace Cadmean.RPC.ASP
 {
@@ -8,7 +6,7 @@ namespace Cadmean.RPC.ASP
     {
         internal readonly RpcServerConfiguration Configuration;
         
-        private readonly Dictionary<string, CachedFunctionInfo> functionMethodsCache = 
+        private readonly Dictionary<string, CachedFunctionInfo> functionInfoCache = 
             new Dictionary<string, CachedFunctionInfo>();
 
 
@@ -29,13 +27,13 @@ namespace Cadmean.RPC.ASP
             var analyzer = new FunctionsAnalyzer(Configuration);
             foreach (var info in analyzer.GetFunctionInfos())
             {
-                functionMethodsCache.Add(info.Name, info);
+                functionInfoCache.Add(info.Name, info);
             }
         }
 
         internal CachedFunctionInfo GetCachedFunctionInfo(string name)
         {
-            return functionMethodsCache.ContainsKey(name) ? functionMethodsCache[name] : null;
+            return functionInfoCache.ContainsKey(name) ? functionInfoCache[name] : null;
         }
     }
 }

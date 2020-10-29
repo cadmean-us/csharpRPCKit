@@ -1,11 +1,9 @@
 using System.Threading.Tasks;
 using Cadmean.RPC.ASP;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Cadmean.RPC.TestServer.Controllers
 {
-    [ApiController]
-    [Route("/api/rpc/bru")]
+    [FunctionRoute("bru")]
     public class BruController : FunctionController
     {
         public class MyStruct

@@ -22,7 +22,7 @@ namespace Cadmean.RPC.ASP
             var headers = request.Headers;
             var pathStr = request.Path.Value;
 
-            if (!FunctionPathParser.IsValidRpcPath(pathStr, rpcService.Configuration))
+            if (!FunctionRouteParser.IsValidRpcRoute(pathStr, rpcService.Configuration))
             {
                 await next.Invoke(context);
                 return;
@@ -35,7 +35,7 @@ namespace Cadmean.RPC.ASP
                 return;
             }
             
-            var fName = FunctionPathParser.GetFunctionName(pathStr, rpcService.Configuration);
+            var fName = FunctionRouteParser.GetFunctionName(pathStr, rpcService.Configuration);
             var functionInfo = rpcService.GetCachedFunctionInfo(fName);
 
             if (functionInfo == null)

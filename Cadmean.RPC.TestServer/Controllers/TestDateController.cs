@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cadmean.RPC.TestServer.Controllers
 {
-    [ApiController]
-    [Route("api/rpc/test.getDate")]
+    [FunctionRoute("test.getDate")]
     public class TestDateController : FunctionController
     {
         public DateTime OnCall()

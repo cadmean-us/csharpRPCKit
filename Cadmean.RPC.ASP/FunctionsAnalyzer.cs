@@ -44,30 +44,43 @@ namespace Cadmean.RPC.ASP
 
         private CachedFunctionInfo AnalyzeFunctionControllerType(Type controllerType)
         {
-            if (controllerType.GetCustomAttribute(typeof(ApiControllerAttribute)) == null)
-                return null;
-
-            var route = controllerType.GetCustomAttribute(typeof(RouteAttribute)) as RouteAttribute;
-            if (route == null) return null;
-
             var method = FindOnCallMethod(controllerType);
             if (method == null) return null;
 
-            var path = route.Template;
+            var path = ResolveRoute(controllerType);
 
-            if (!FunctionPathParser.IsValidRpcPath(path, rpcServerConfiguration))
+            if (!FunctionRouteParser.IsValidRpcRoute(path, rpcServerConfiguration))
+                return null;
+
+            var name = FunctionRouteParser.GetFunctionName(path, rpcServerConfiguration);
+            if (!FunctionRouteParser.IsValidFunctionName(name))
                 return null;
 
             var info = new CachedFunctionInfo
             {
                 CallMethod = method,
-                Name = FunctionPathParser.GetFunctionName(path, rpcServerConfiguration),
+                Name = name,
                 Path = path,
                 IsCallMethodAsync = IsMethodAsync(method),
                 RequiresAuthorization = FunctionRequiresAuthorization(method),
             };
 
             return info;
+        }
+
+        private static string ResolveRoute(Type controllerType)
+        {
+            if (controllerType.GetCustomAttribute(typeof(RouteAttribute)) is RouteAttribute route)
+            {
+                return route.Template;
+            }
+
+            if (controllerType.GetCustomAttribute(typeof(RouteAttribute)) is FunctionRouteAttribute functionRoute)
+            {
+                return functionRoute.FullPath;
+            }
+
+            return null;
         }
 
         private static MethodInfo FindOnCallMethod(Type controllerType)
