@@ -20,15 +20,12 @@ namespace Cadmean.RPC.ASP
         internal List<CachedFunctionInfo> GetFunctionInfos()
         {
             var infos = new List<CachedFunctionInfo>();
-            
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+
+            foreach (var controllerType in GetFunctionControllerDerivedTypes(Assembly.GetEntryAssembly()))
             {
-                foreach (var controllerType in GetFunctionControllerDerivedTypes(assembly))
-                {
-                    var info = AnalyzeFunctionControllerType(controllerType);
-                    if (info != null)
-                        infos.Add(info);
-                }
+                var info = AnalyzeFunctionControllerType(controllerType);
+                if (info != null)
+                    infos.Add(info);
             }
             
             LogFoundFunctions(infos);
@@ -75,7 +72,7 @@ namespace Cadmean.RPC.ASP
                 return route.Template;
             }
 
-            if (controllerType.GetCustomAttribute(typeof(RouteAttribute)) is FunctionRouteAttribute functionRoute)
+            if (controllerType.GetCustomAttribute(typeof(FunctionRouteAttribute)) is FunctionRouteAttribute functionRoute)
             {
                 return functionRoute.FullPath;
             }
