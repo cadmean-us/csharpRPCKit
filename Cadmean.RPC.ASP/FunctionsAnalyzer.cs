@@ -67,14 +67,14 @@ namespace Cadmean.RPC.ASP
 
         private static string ResolveRoute(Type controllerType)
         {
-            if (controllerType.GetCustomAttribute(typeof(RouteAttribute)) is RouteAttribute route)
-            {
-                return route.Template;
-            }
-
             if (controllerType.GetCustomAttribute(typeof(FunctionRouteAttribute)) is FunctionRouteAttribute functionRoute)
             {
                 return functionRoute.FullPath;
+            }
+            
+            if (controllerType.GetCustomAttribute(typeof(RouteAttribute)) is RouteAttribute route)
+            {
+                return route.Template;
             }
 
             return null;
