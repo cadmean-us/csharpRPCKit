@@ -36,7 +36,9 @@ namespace Cadmean.RPC.CLI
                                 case 0:
                                     serverName = arg switch
                                     {
-                                        "local" => "http://localhost:5000",
+                                        "local" => "http://localhost:80",
+                                        ":80" => "http://localhost:80",
+                                        ":5000" => "http://localhost:5000",
                                         "test" => "http://testrpc.cadmean.ru",
                                         _ => arg,
                                     };
@@ -68,13 +70,15 @@ namespace Cadmean.RPC.CLI
         {
             while (true)
             {
-                if (string.IsNullOrEmpty(Program.serverName))
+                if (string.IsNullOrEmpty(serverName))
                 {
                     Console.Write("Enter server url: ");
                     var sn = Console.ReadLine();
                     serverName = sn switch
                     {
                         "" => "http://localhost:5000",
+                        ":80" => "http://localhost:80",
+                        ":5000" => "http://localhost:5000",
                         "test" => "http://testrpc.cadmean.ru",
                         _ => sn
                     };
