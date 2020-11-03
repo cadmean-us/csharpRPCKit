@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace Cadmean.RPC.ASP
 {
@@ -30,8 +30,7 @@ namespace Cadmean.RPC.ASP
 
             if (!CheckRpcHeader(headers))
             {
-                response.StatusCode = 418;
-                await response.WriteAsync("Not supported cadRPC version");
+                await SendErrorOutput(response, RpcErrorCode.IncompatibleRpcVersion);
                 return;
             }
             
@@ -40,8 +39,7 @@ namespace Cadmean.RPC.ASP
 
             if (functionInfo == null)
             {
-                response.StatusCode = 404;
-                await response.WriteAsync("Function not found");
+                await SendErrorOutput(response, RpcErrorCode.FunctionNotFound);
                 return;
             }
             
@@ -56,8 +54,14 @@ namespace Cadmean.RPC.ASP
             if (!headers.ContainsKey("Cadmean-RPC-Version"))
                 return false;
             
-            var rpcVersionHeaderValue = Convert.ToInt32(headers["Cadmean-RPC-Version"][0]);
+            var rpcVersionHeaderValue = headers["Cadmean-RPC-Version"][0];
             return rpcVersionHeaderValue == RpcServerConfiguration.SupportedCadmeanRpcVersion;
+        }
+
+        private async Task SendErrorOutput(HttpResponse response, RpcErrorCode code)
+        {
+            response.ContentType = "application/json";
+            await response.WriteAsync(JsonConvert.SerializeObject(FunctionOutput.WithError(code)));
         }
     }
 }

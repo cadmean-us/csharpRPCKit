@@ -3,14 +3,14 @@
     public enum RpcErrorCode
     {
         NoError = 0,
-        FunctionNotCallable,
-        InvalidParameters,
-        InternalServerError,
-        EncodingError,
-        TransportError,
-        AuthorizationError,
-        NiceError = 69,
-        TeapotError = 418,
-        CustomError = 100,
+        FunctionNotCallable = -100,
+        FunctionNotFound = -101,
+        IncompatibleRpcVersion = -102,
+        InvalidParameters = -200,
+        EncodingError = -300,
+        TransportError = -400,
+        InternalServerError = -500,
+        AuthorizationError = -600,
+        NiceError = -69,
     }
 }

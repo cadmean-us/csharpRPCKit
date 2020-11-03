@@ -61,8 +61,8 @@ namespace Cadmean.RPC
             var meta = output.MetaData;
             if (meta == null) return;
 
-            if (meta.ContainsKey("clrResultType") &&
-                meta["clrResultType"] is string s && s == "Cadmean.RPC.JwtAuthorizationTicket" && 
+            if (meta.ContainsKey("resultType") &&
+                meta["resultType"] is string s && s == RpcDataType.AuthTicket && 
                 output.Result is JObject json && 
                 json.ContainsKey("accessToken") && json.GetValue("accessToken")?.Value<string>() is { } accessToken &&
                 json.ContainsKey("refreshToken") && json.GetValue("refreshToken")?.Value<string>() is { } refreshToken)
@@ -77,8 +77,8 @@ namespace Cadmean.RPC
             var meta = output.MetaData;
             if (meta == null) return;
 
-            if (meta.ContainsKey("clrResultType") &&
-                meta["clrResultType"] is string s && s == "Cadmean.RPC.JwtAuthorizationTicket" && 
+            if (meta.ContainsKey("resultType") &&
+                meta["resultType"] is string s && s == RpcDataType.AuthTicket && 
                 output.Result is JwtAuthorizationTicket ticket)
             {
                 client.Configuration.AuthorizationTicketHolder.Ticket = ticket;

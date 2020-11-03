@@ -4,7 +4,7 @@ namespace Cadmean.RPC.ASP
 {
     public class RpcServerConfiguration
     {
-        public const int SupportedCadmeanRpcVersion = 2;
+        public const string SupportedCadmeanRpcVersion = "2.1";
         
         public string FunctionNamePrefix = "api/rpc";
         

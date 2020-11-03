@@ -3,11 +3,11 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.2.4</PackageVersion>
+        <PackageVersion>0.3.0</PackageVersion>
         <Title>Cadmean.RPC.ASP</Title>
         <Description>Backend RPC library for ASP.NET Core</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Fix analyzer</PackageReleaseNotes>
+        <PackageReleaseNotes>Cadmean RPC v2.1. Updated meta data fields. Added not found and version errors.</PackageReleaseNotes>
         <Authors>Cadmean</Authors>
     </PropertyGroup>
 

@@ -17,6 +17,8 @@ namespace Cadmean.RPC.ASP
 
         private CachedFunctionInfo functionInfo;
 
+        private Exception internalException = null;
+
         [HttpPost]
         public async Task<FunctionOutput> Post()
         {
@@ -114,7 +116,6 @@ namespace Cadmean.RPC.ASP
         }
         
         
-
         private async Task<FunctionOutput> TryCallFunction(MethodInfo callMethod, object[] args)
         {
             object result;
@@ -135,11 +136,13 @@ namespace Cadmean.RPC.ASP
                 {
                     return FunctionOutput.WithError(fEx.Code);
                 }
-                
+
+                internalException = ex.InnerException;
                 return FunctionOutput.WithError(RpcErrorCode.InternalServerError);
             }
-            catch 
+            catch (Exception ex)
             {
+                internalException = ex;
                 return FunctionOutput.WithError(RpcErrorCode.InternalServerError);
             }
             
@@ -168,13 +171,24 @@ namespace Cadmean.RPC.ASP
 
         private bool IsRationalToIncludeMetaData(FunctionOutput output)
         {
-            return RpcService.Configuration.AlwaysIncludeMetadata || output.Result is JwtAuthorizationTicket;
+            return RpcService.Configuration.AlwaysIncludeMetadata || 
+                   RpcService.Configuration.DebugMode || 
+                   output.Result is JwtAuthorizationTicket;
         }
         
         private FunctionOutput IncludeMetaData(FunctionOutput output)
         {
             output.MetaData = new Dictionary<string, object>();
-            output.MetaData["clrResultType"] = output.Result.GetType().FullName;
+
+            output.MetaData["resultType"] = RpcDataType.ResolveRpcDataType(output.Result);
+
+            if (RpcService.Configuration.DebugMode)
+            {
+                output.MetaData["clrResultType"] = output.Result?.GetType().FullName;
+                output.MetaData["internalException"] = internalException?.GetType().FullName;
+                output.MetaData["exceptionStackTrace"] = internalException?.StackTrace;
+            }
+            
             return output;
         }
     }
