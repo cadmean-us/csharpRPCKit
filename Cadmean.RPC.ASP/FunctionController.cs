@@ -93,7 +93,7 @@ namespace Cadmean.RPC.ASP
             return args;
         }
 
-        private object TryConvertArgumentToParameterType(object arg, Type parameterType)
+        private static object TryConvertArgumentToParameterType(object arg, Type parameterType)
         {
             if (parameterType == typeof(int))
             {
@@ -111,6 +111,11 @@ namespace Cadmean.RPC.ASP
             {
                 return Convert.ToDouble(arg);
             }
+
+            if (parameterType == typeof(DateTime) && arg is string s)
+            {
+                return DateTime.Parse(s);
+            }
             
             return arg;
         }
@@ -125,6 +130,14 @@ namespace Cadmean.RPC.ASP
                     result = await ExecuteFunctionAsync(callMethod, args);
                 else
                     result = ExecuteFunctionSync(callMethod, args);
+            }
+            catch (ArgumentException)
+            {
+                return FunctionOutput.WithError(RpcErrorCode.InvalidArguments);
+            }
+            catch (TargetParameterCountException)
+            {
+                return FunctionOutput.WithError(RpcErrorCode.InvalidArguments);
             }
             catch (FunctionException ex)
             {

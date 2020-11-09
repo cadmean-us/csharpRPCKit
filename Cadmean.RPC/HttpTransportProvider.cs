@@ -13,9 +13,29 @@ namespace Cadmean.RPC
             var content = new ByteArrayContent(data);
             content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
             content.Headers.Add("Cadmean-RPC-Version", "2.1");
+            
             var message = new HttpRequestMessage(HttpMethod.Post, url) {Content = content};
-            var response = await client.SendAsync(message);
-            response.EnsureSuccessStatusCode();
+
+            HttpResponseMessage response;
+            
+            try
+            {
+                response = await client.SendAsync(message);
+            }
+            catch (HttpRequestException)
+            {
+                throw new FunctionException((int) RpcErrorCode.TransportError, "Failed to send call");
+            }
+
+            try
+            {
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException)
+            {
+                throw new FunctionException((int) RpcErrorCode.NotSuccessfulStatusCode, "Server did not respond with a successful status code");
+            }
+
             return await response.Content.ReadAsByteArrayAsync();
         }
     }

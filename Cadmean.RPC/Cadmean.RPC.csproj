@@ -3,12 +3,17 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.3.0</PackageVersion>
+        <PackageVersion>0.3.1</PackageVersion>
         <Title>Cadmean.RPC</Title>
         <Authors>Cadmean</Authors>
         <Description>RPC library for calling API functions.</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Cadmean RPC v2.1. Updated reserved error codes and meta data fields. Added data types.</PackageReleaseNotes>
+        <PackageReleaseNotes>Added http exceptions</PackageReleaseNotes>
+        <PackageProjectUrl>https://github.com/cadmean-ru/csharpRPCKit</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/cadmean-ru/csharpRPCKit/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/cadmean-ru/csharpRPCKit.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>Cadmean RPC</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

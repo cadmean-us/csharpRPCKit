@@ -3,12 +3,17 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.3.0</PackageVersion>
+        <PackageVersion>0.3.1</PackageVersion>
         <Title>Cadmean.RPC.ASP</Title>
-        <Description>Backend RPC library for ASP.NET Core</Description>
+        <Description>Server RPC library for ASP.NET Core</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Cadmean RPC v2.1. Updated meta data fields. Added not found and version errors.</PackageReleaseNotes>
+        <PackageReleaseNotes>Added function arguments error handling.</PackageReleaseNotes>
         <Authors>Cadmean</Authors>
+        <PackageProjectUrl>https://github.com/cadmean-ru/csharpRPCKit</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/cadmean-ru/csharpRPCKit/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/cadmean-ru/csharpRPCKit.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>RPC Cadmean</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

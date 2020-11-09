@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 namespace Cadmean.RPC
 {
@@ -7,6 +8,8 @@ namespace Cadmean.RPC
         public const string String = "string";
         public const string Integer = "int";
         public const string Float = "float";
+        public const string Boolean = "bool";
+        public const string Date = "date";
         public const string List = "list";
         public const string Object = "object";
         public const string AuthTicket = "auth";
@@ -29,6 +32,8 @@ namespace Cadmean.RPC
                 double _ => Float,
                 decimal _ => Float,
                 string _ => String,
+                bool _ => Boolean,
+                DateTime _ => Date,
                 IEnumerable _ => List,
                 JwtAuthorizationTicket _ => AuthTicket,
                 _ => Object,
