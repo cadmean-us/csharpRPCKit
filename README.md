@@ -6,9 +6,9 @@ cadRPC is an easy-to-use RPC technology. It's goal is to simplify the communicat
 
 Please, refer to the readme of the specific project:
 
-[Client](https://github.com/cadmean-ru/Cadmean.RPC/blob/master/Cadmean.RPC/README.md)
+[Client](https://github.com/cadmean-ru/csharpRPCKit/tree/master/Cadmean.RPC)
 
-[Server](https://github.com/cadmean-ru/Cadmean.RPC/blob/master/Cadmean.RPC.ASP/README.md)
+[Server](https://github.com/cadmean-ru/csharpRPCKit/tree/master/Cadmean.RPC.ASP)
 
 ## Contributing
 
