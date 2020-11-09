@@ -105,6 +105,33 @@ The name of the function should represent some action. If the name contains dot,
 the part before dot should represent some object or resource and the one after dor - some action.
 If the function name is invalid it won't work.
 
+#### Errors
+
+In cadRPC a function outputs some result object and an error code.
+Than you can than handle this error code on the client side. 
+The ```sum``` function above always returns 0 error code, indicating no error.
+You can return a custom error from your function by throwing ```FunctionException```:
+
+```c#
+[FunctionRoute("error")]
+public class GetErrorController : FunctionController
+{
+    public string OnCall(bool throwError)
+    {
+        if (throwError)
+            throw new FunctionException(42);
+
+        return "no error";
+    }
+}
+```
+
+The function above can return an error with code 42. 
+You will need to handle this error on client side.
+You can use any positive numbers for your error codes 
+(negative error codes are reserved for cadRPC errors). 
+You define what these codes mean yourself.
+
 ### More examples of function controllers
 
 You can find some more examples in the TestServer project in this repository 
