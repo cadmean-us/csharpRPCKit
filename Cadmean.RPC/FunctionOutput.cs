@@ -3,6 +3,10 @@ using Newtonsoft.Json;
 
 namespace Cadmean.RPC
 {
+    /// <summary>
+    /// Generic object returned by the RPC function. Contains error code, result if any and meta data.
+    /// </summary>
+    /// <typeparam name="TResult">Type of result</typeparam>
     public struct FunctionOutput<TResult>
     {
         [JsonProperty("error")]
@@ -33,6 +37,9 @@ namespace Cadmean.RPC
         }
     }
     
+    /// <summary>
+    /// Non-generic object returned by the RPC function. Contains error code, result if any and meta data.
+    /// </summary>
     public struct FunctionOutput
     {
         [JsonProperty("error")]

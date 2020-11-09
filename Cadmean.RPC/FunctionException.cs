@@ -12,6 +12,11 @@ namespace Cadmean.RPC
             Code = code;
         }
         
+        internal FunctionException(int code) : base($"Function exited with code {code}")
+        {
+            Code = code;
+        }
+        
         internal FunctionException(int code, string msg) : base(msg)
         {
             Code = code;

@@ -3,6 +3,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Cadmean.RPC
 {
+    /// <summary>
+    /// Reference to an RPC function
+    /// </summary>
     public class Function
     {
         public readonly string Name;
@@ -14,6 +17,12 @@ namespace Cadmean.RPC
             this.client = client;
         }
 
+        /// <summary>
+        /// Makes a call to the RPC function.
+        /// </summary>
+        /// <param name="functionArguments">Arguments to be passed to the RPC function</param>
+        /// <returns><c>FunctionOutput</c> that contains the result and the error code.</returns>
+        /// <seealso cref="FunctionOutput"/>
         public async Task<FunctionOutput> Call(params object[] functionArguments)
         {
             var responseData = await ConstructCallAndSend(functionArguments);
@@ -22,12 +31,52 @@ namespace Cadmean.RPC
             return output;
         }
 
+        /// <summary>
+        /// Makes a call to the RPC function.
+        /// </summary>
+        /// <param name="functionArguments">Arguments to be passed to the RPC function</param>
+        /// <typeparam name="TResult">The type of result object of the returned <c>FunctionOutput</c></typeparam>
+        /// <returns><c>FunctionOutput</c> that contains the result and the error code.</returns>
+        /// <seealso cref="FunctionOutput"/>
         public async Task<FunctionOutput<TResult>> Call<TResult>(params object[] functionArguments)
         {
             var responseData = await ConstructCallAndSend(functionArguments);
             var output = client.Configuration.Codec.Decode<FunctionOutput<TResult>>(responseData);
             ProcessMetaData(output);
             return output;
+        }
+
+        /// <summary>
+        /// Makes a call to the RPC function. Throws <c>FunctionException</c> if call fails.
+        /// </summary>
+        /// <param name="functionArguments">Arguments to be passed to the RPC function</param>
+        /// <typeparam name="TResult">The type of result object</typeparam>
+        /// <returns>The result returned from RPC function as <c>TResult</c></returns>
+        /// <exception cref="FunctionException">Call failed with some error code.</exception>
+        public async Task<TResult> CallThrowing<TResult>(params object[] functionArguments)
+        {
+            var output = await Call<TResult>(functionArguments);
+            if (output.Error != 0)
+            {
+                throw new FunctionException(output.Error);
+            }
+
+            return output.Result;
+        }
+        
+        /// <summary>
+        /// Makes a call to the RPC function. Throws <c>FunctionException</c> if call fails.
+        /// </summary>
+        /// <param name="functionArguments">Arguments to be passed to the RPC function</param>
+        /// <returns></returns>
+        /// <exception cref="FunctionException">Call failed with some error code.</exception>
+        public async Task CallThrowing(params object[] functionArguments)
+        {
+            var output = await Call(functionArguments);
+            if (output.Error != 0)
+            {
+                throw new FunctionException(output.Error);
+            }
         }
 
         private async Task<byte[]> ConstructCallAndSend(object[] functionArguments)

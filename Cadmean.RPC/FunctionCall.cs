@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace Cadmean.RPC
 {
+    /// <summary>
+    /// Represents call to the RPC function
+    /// </summary>
     public struct FunctionCall
     {
         [JsonProperty("args", DefaultValueHandling = DefaultValueHandling.Populate)]
