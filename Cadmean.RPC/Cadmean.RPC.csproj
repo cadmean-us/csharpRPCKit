@@ -3,12 +3,12 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.3.1</PackageVersion>
+        <PackageVersion>0.3.2</PackageVersion>
         <Title>Cadmean.RPC</Title>
         <Authors>Cadmean</Authors>
         <Description>RPC library for calling API functions.</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Added http exceptions</PackageReleaseNotes>
+        <PackageReleaseNotes>Updated to .NET 5.</PackageReleaseNotes>
         <PackageProjectUrl>https://github.com/cadmean-ru/csharpRPCKit</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/cadmean-ru/csharpRPCKit/blob/master/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/cadmean-ru/csharpRPCKit.git</RepositoryUrl>

@@ -18,7 +18,7 @@ GET requests now return error.</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Cadmean.RPC" Version="0.3.1" />
+      <PackageReference Include="Cadmean.RPC" Version="0.3.2" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     </ItemGroup>
 
