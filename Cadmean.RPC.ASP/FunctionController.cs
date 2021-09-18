@@ -17,7 +17,7 @@ namespace Cadmean.RPC.ASP
 
         private CachedFunctionInfo functionInfo;
 
-        private Exception internalException = null;
+        private Exception internalException;
 
         [HttpPost]
         public async Task<FunctionOutput> Post()
@@ -35,6 +35,12 @@ namespace Cadmean.RPC.ASP
 
             var output = await TryCallFunction(callMethod, args);
             return ProcessOutput(output);
+        }
+
+        [HttpGet]
+        public FunctionOutput Get()
+        {
+            return FunctionOutput.WithError(RpcErrorCode.PreCallChecksFailed);
         }
 
         private void Prepare()
