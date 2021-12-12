@@ -1,23 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.3.2</PackageVersion>
+        <PackageVersion>0.3.3</PackageVersion>
         <Title>Cadmean.RPC</Title>
         <Authors>Cadmean</Authors>
         <Description>RPC library for calling API functions.</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Updated to .NET 5.</PackageReleaseNotes>
+        <PackageReleaseNotes>Updated to .NET 6.</PackageReleaseNotes>
         <PackageProjectUrl>https://github.com/cadmean-ru/csharpRPCKit</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/cadmean-ru/csharpRPCKit/blob/master/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/cadmean-ru/csharpRPCKit.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>Cadmean RPC</PackageTags>
+        <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 
 </Project>
