@@ -56,8 +56,12 @@ namespace Cadmean.RPC.ASP
         {
             using var r = new StreamReader(Request.Body);
             var str = await r.ReadToEndAsync();
+            var serializerSettings = new JsonSerializerSettings
+            {
+                DateParseHandling = DateParseHandling.None,
+            };
             // ReSharper disable once PossibleNullReferenceException
-            return (FunctionCall) JsonConvert.DeserializeObject(str, typeof(FunctionCall));
+            return (FunctionCall) JsonConvert.DeserializeObject(str, typeof(FunctionCall), serializerSettings);
         }
 
         private bool ValidateAuthorizationToken()
@@ -137,32 +141,9 @@ namespace Cadmean.RPC.ASP
                 else
                     result = ExecuteFunctionSync(callMethod, args);
             }
-            catch (ArgumentException)
-            {
-                return FunctionOutput.WithError(RpcErrorCode.InvalidArguments);
-            }
-            catch (TargetParameterCountException)
-            {
-                return FunctionOutput.WithError(RpcErrorCode.InvalidArguments);
-            }
-            catch (FunctionException ex)
-            {
-                return FunctionOutput.WithError(ex.Code);
-            }
-            catch (TargetInvocationException ex)
-            {
-                if (ex.InnerException is FunctionException fEx)
-                {
-                    return FunctionOutput.WithError(fEx.Code);
-                }
-
-                internalException = ex.InnerException;
-                return FunctionOutput.WithError(RpcErrorCode.InternalServerError);
-            }
             catch (Exception ex)
             {
-                internalException = ex;
-                return FunctionOutput.WithError(RpcErrorCode.InternalServerError);
+                return HandleException(ex);
             }
             
             return FunctionOutput.WithResult(result);
@@ -178,6 +159,28 @@ namespace Cadmean.RPC.ASP
         private object ExecuteFunctionSync(MethodInfo callMethod, object[] args)
         {
             return callMethod.Invoke(this, args);
+        }
+
+        private FunctionOutput HandleException(Exception ex)
+        {
+            switch (ex)
+            {
+                case ArgumentException:
+                    internalException = ex;
+                    return FunctionOutput.WithError(RpcErrorCode.InvalidArguments);
+                case TargetParameterCountException:
+                    return FunctionOutput.WithError(RpcErrorCode.InvalidArguments);
+                case FunctionException fEx:
+                    return FunctionOutput.WithError(fEx.Code);
+                case TargetInvocationException when ex.InnerException is FunctionException fEx2:
+                    return FunctionOutput.WithError(fEx2.Code);
+                case TargetInvocationException:
+                    internalException = ex.InnerException;
+                    return FunctionOutput.WithError(RpcErrorCode.InternalServerError);
+                default:
+                    internalException = ex;
+                    return FunctionOutput.WithError(RpcErrorCode.InternalServerError);
+            }
         }
 
         private FunctionOutput ProcessOutput(FunctionOutput output)
