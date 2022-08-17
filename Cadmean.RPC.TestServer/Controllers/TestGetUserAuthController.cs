@@ -6,10 +6,10 @@ namespace Cadmean.RPC.TestServer.Controllers
 {
     [ApiController]
     [Route("api/rpc/test.getUserAuth")]
+    [RpcAuthorize]
     public class TestGetUserAuthController : FunctionController
     {
-        [RpcAuthorize]
-        private PocoRpcFunctionTests.User OnCall(string email)
+        public PocoRpcFunctionTests.User OnCall(string email)
         {
             if (email == "krit.allyosha@gmail.com")
             {

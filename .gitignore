@@ -6,3 +6,5 @@ riderModule.iml
 .idea/
 .vscode/
 .vs/
+.DS_Store
+Cadmean.RPC.sln.DotSettings.user

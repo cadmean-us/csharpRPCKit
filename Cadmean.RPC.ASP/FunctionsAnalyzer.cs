@@ -59,7 +59,7 @@ namespace Cadmean.RPC.ASP
                 Name = name,
                 Path = path,
                 IsCallMethodAsync = IsMethodAsync(method),
-                RequiresAuthorization = FunctionRequiresAuthorization(method),
+                RequiresAuthorization = FunctionRequiresAuthorization(controllerType, method),
             };
 
             return info;
@@ -94,14 +94,24 @@ namespace Cadmean.RPC.ASP
             return callMethod.ReturnType.GetMethod(nameof(Task.GetAwaiter)) != null;
         }
         
-        private bool FunctionRequiresAuthorization(MethodInfo methodInfo)
+        private bool FunctionRequiresAuthorization(Type controllerType, MethodInfo methodInfo)
         {
             if (!rpcServerConfiguration.IsAuthorizationEnabled)
                 return false;
             
             var attributes = methodInfo.GetCustomAttributes();
-            return attributes.Any(attr =>
-                attr.GetType() == typeof(RpcAuthorizeAttribute) || attr.GetType() == typeof(AuthorizeAttribute));
+            if (attributes.Any(IsAuthorizeAttribute))
+            {
+                return true;
+            }
+            
+            attributes = controllerType.GetCustomAttributes();
+            return attributes.Any(IsAuthorizeAttribute);
+        }
+
+        private bool IsAuthorizeAttribute(Attribute attr)
+        {
+            return attr.GetType() == typeof(RpcAuthorizeAttribute) || attr.GetType() == typeof(AuthorizeAttribute);
         }
 
 

@@ -8,7 +8,14 @@ namespace Cadmean.RPC.Tests
     {
         private readonly ITestOutputHelper testOutputHelper;
         private JsonCodecProvider jsonCodecProvider = new JsonCodecProvider();
-        private readonly object data = new
+
+        public struct Data
+        {
+            public string Name;
+            public int Nice;
+        }
+        
+        private readonly Data data = new Data
         {
             Name = "Bru",
             Nice = 69

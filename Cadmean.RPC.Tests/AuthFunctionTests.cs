@@ -74,5 +74,17 @@ namespace Cadmean.RPC.Tests
             var actual = output1.Result;
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public async void ShouldReturnErrorWithoutAuthorization()
+        {
+            const string email = "krit.allyosha@gmail.com";
+
+            var expectedError = -600;
+
+            var output = await rpc.Function("test.getUserAuth").Call<PocoRpcFunctionTests.User>();
+            
+            Assert.Equal(expectedError, output.Error);
+        }
     }
 }
