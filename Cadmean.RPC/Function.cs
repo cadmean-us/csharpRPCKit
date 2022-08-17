@@ -56,7 +56,7 @@ namespace Cadmean.RPC
         public async Task<TResult> CallThrowing<TResult>(params object[] functionArguments)
         {
             var output = await Call<TResult>(functionArguments);
-            if (output.Error != 0)
+            if (!string.IsNullOrEmpty(output.Error))
             {
                 throw new FunctionException(output.Error);
             }
@@ -73,7 +73,7 @@ namespace Cadmean.RPC
         public async Task CallThrowing(params object[] functionArguments)
         {
             var output = await Call(functionArguments);
-            if (output.Error != 0)
+            if (!string.IsNullOrEmpty(output.Error))
             {
                 throw new FunctionException(output.Error);
             }

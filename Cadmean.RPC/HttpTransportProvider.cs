@@ -24,7 +24,7 @@ namespace Cadmean.RPC
             }
             catch (HttpRequestException)
             {
-                throw new FunctionException((int) RpcErrorCode.TransportError, "Failed to send call");
+                throw new FunctionException(RpcErrorCode.TransportError);
             }
 
             try
@@ -33,7 +33,7 @@ namespace Cadmean.RPC
             }
             catch (HttpRequestException)
             {
-                throw new FunctionException((int) RpcErrorCode.NotSuccessfulStatusCode, "Server did not respond with a successful status code");
+                throw new FunctionException(RpcErrorCode.NotSuccessfulStatusCode);
             }
 
             return await response.Content.ReadAsByteArrayAsync();

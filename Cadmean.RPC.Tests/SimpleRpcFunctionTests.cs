@@ -23,9 +23,8 @@ namespace Cadmean.RPC.Tests
             const int a = 1;
             const int b = 68;
             const int expected = 69;
-            const int expectedError = 0;
             var output = await rpc.Function("test.addInt").Call<int>(a, b);
-            Assert.Equal(expectedError, output.Error);
+            Assert.True(string.IsNullOrEmpty(output.Error));
             var actual = output.Result;
             testOutputHelper.WriteLine(actual.ToString());
             Assert.Equal(expected, actual);
@@ -36,9 +35,8 @@ namespace Cadmean.RPC.Tests
         {
             const int a = 3;
             const int expected = 9;
-            const int expectedError = 0;
             var output = await rpc.Function("test.squareDouble").Call<double>(a);
-            Assert.Equal(expectedError, output.Error);
+            Assert.True(string.IsNullOrEmpty(output.Error));
             var actual = output.Result;
             testOutputHelper.WriteLine(actual.ToString(CultureInfo.InvariantCulture));
             Assert.Equal(expected, actual);
@@ -51,9 +49,8 @@ namespace Cadmean.RPC.Tests
             const string b = "cadRPC";
             const string c = "!";
             const string expected = "Hello, cadRPC!";
-            const int expectedError = 0;
             var output = await rpc.Function("test.concatString").Call<string>(a, b, c);
-            Assert.Equal(expectedError, output.Error);
+            Assert.True(string.IsNullOrEmpty(output.Error));
             var actual = output.Result;
             testOutputHelper.WriteLine(actual);
             Assert.Equal(expected, actual);
@@ -64,9 +61,8 @@ namespace Cadmean.RPC.Tests
         {
             const bool b = true;
             const bool expected = false;
-            const int expectedError = 0;
             var output = await rpc.Function("test.invertBool").Call<bool>(b);
-            Assert.Equal(expectedError, output.Error);
+            Assert.True(string.IsNullOrEmpty(output.Error));
             var actual = output.Result;
             testOutputHelper.WriteLine(actual.ToString());
             Assert.Equal(expected, actual);
@@ -76,11 +72,10 @@ namespace Cadmean.RPC.Tests
         public async void ShouldCallTestFunction_GetDate()
         {
             var expected = new DateTime(2020, 10, 24, 22, 15, 0);
-            const int expectedError = 0;
             var output = await rpc.Function("test.getDate").Call<DateTime>();
-            Assert.Equal(expectedError, output.Error);
+            Assert.True(string.IsNullOrEmpty(output.Error));
             var actual = output.Result;
-            testOutputHelper.WriteLine(actual.ToString());
+            testOutputHelper.WriteLine(actual.ToString(CultureInfo.InvariantCulture));
             Assert.Equal(expected, actual);
         }
     }

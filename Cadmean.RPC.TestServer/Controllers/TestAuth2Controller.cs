@@ -9,10 +9,10 @@ namespace Cadmean.RPC.TestServer.Controllers
     [FunctionRoute("test.auth2")]
     public class TestAuth2Controller : FunctionController
     {
-        private Task<JwtAuthorizationTicket> OnCall(string email, string password)
+        public Task<JwtAuthorizationTicket> OnCall(string email, string password)
         {
             if (email != "krit.allyosha@gmail.com" || password != "bruh") 
-                throw new FunctionException(101);
+                throw new FunctionException("invalid_credentials");
             
             var accessToken = new JwtToken(JwtAuthorizationOptions.Default, new List<Claim>(), "cadmean");
             var refreshToken = new JwtToken(JwtAuthorizationOptions.Default, new List<Claim>(), "cadmean");

@@ -19,14 +19,13 @@ namespace Cadmean.RPC.Tests
         {
             const string email = "krit.allyosha@gmail.com";
             const string pass = "bruh";
-           
-            const int expectedError = 0;
+            
             var expected = new JwtAuthorizationTicket("access", "refresh");
             const string expectedResultType = "Cadmean.RPC.JwtAuthorizationTicket";
             
             var output = await rpc.Function("test.auth").Call<JwtAuthorizationTicket>(email, pass);
             
-            Assert.Equal(expectedError, output.Error);
+            Assert.True(string.IsNullOrEmpty(output.Error));
             
             var actual = output.Result;
             testOutputHelper.WriteLine(actual.ToString());
@@ -44,10 +43,10 @@ namespace Cadmean.RPC.Tests
             const string email = "test@test.test";
             const string pass = "test";
             
-            const int expectedError = 101;
+            const string expectedError = "invalid_credentials";
             
             var output = await rpc.Function("test.auth").Call<JwtAuthorizationTicket>(email, pass);
-            testOutputHelper.WriteLine(output.Error.ToString());
+            testOutputHelper.WriteLine(output.Error);
             
             Assert.Equal(expectedError, output.Error);
         }
@@ -64,13 +63,12 @@ namespace Cadmean.RPC.Tests
                 Surname = "Kot",
                 Age = 69
             };
-            const int expectedError = 0;
-            
+
             var output = await rpc.Function("test.auth2").Call(email, pass);
-            Assert.Equal(expectedError, output.Error);
+            Assert.True(string.IsNullOrEmpty(output.Error));
             
             var output1 = await rpc.Function("test.getUserAuth").Call<PocoRpcFunctionTests.User>(email);
-            Assert.Equal(expectedError, output1.Error);
+            Assert.True(string.IsNullOrEmpty(output1.Error));
             var actual = output1.Result;
             Assert.Equal(expected, actual);
         }
@@ -80,9 +78,9 @@ namespace Cadmean.RPC.Tests
         {
             const string email = "krit.allyosha@gmail.com";
 
-            var expectedError = -600;
+            var expectedError = RpcErrorCode.AuthorizationError.Description();
 
-            var output = await rpc.Function("test.getUserAuth").Call<PocoRpcFunctionTests.User>();
+            var output = await rpc.Function("test.getUserAuth").Call<PocoRpcFunctionTests.User>(email);
             
             Assert.Equal(expectedError, output.Error);
         }

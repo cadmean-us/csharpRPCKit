@@ -5,19 +5,19 @@ namespace Cadmean.RPC
     /// </summary>
     public class FunctionException : RpcException
     {
-        public readonly int Code;
+        public readonly string Code;
         
-        public FunctionException(ushort code) : base($"Function exited with code {code}")
+        public FunctionException(string code) : base($"Function exited with code {code}")
         {
             Code = code;
         }
-        
-        internal FunctionException(int code) : base($"Function exited with code {code}")
+
+        internal FunctionException(RpcErrorCode code) : base($"Function exited with code {code.Description()}")
         {
-            Code = code;
+            Code = code.Description();
         }
-        
-        internal FunctionException(int code, string msg) : base(msg)
+
+        internal FunctionException(string code, string msg) : base(msg)
         {
             Code = code;
         }

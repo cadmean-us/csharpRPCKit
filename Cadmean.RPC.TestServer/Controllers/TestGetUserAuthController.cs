@@ -21,7 +21,7 @@ namespace Cadmean.RPC.TestServer.Controllers
                 };
             }
             
-            throw new FunctionException(102);
+            throw new FunctionException("user_not_found");
         }
     }
 }

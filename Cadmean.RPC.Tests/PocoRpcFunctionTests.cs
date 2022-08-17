@@ -52,9 +52,8 @@ namespace Cadmean.RPC.Tests
                 Age = 69
             };
             const string expected = "Hello, Georg69";
-            const int expectedError = 0;
             var output = await rpc.Function("test.greetUser").Call<string>(u);
-            Assert.Equal(expectedError, output.Error);
+            Assert.True(string.IsNullOrEmpty(output.Error));
             var actual = output.Result;
             testOutputHelper.WriteLine(actual);
             Assert.Equal(expected, actual);
@@ -69,9 +68,8 @@ namespace Cadmean.RPC.Tests
                 Surname = "Krit",
                 Age = 42
             };
-            const int expectedError = 0;
             var output = await rpc.Function("test.getUser").Call<User>();
-            Assert.Equal(expectedError, output.Error);
+            Assert.True(string.IsNullOrEmpty(output.Error));
             var actual = output.Result;
             testOutputHelper.WriteLine(actual.ToString());
             Assert.Equal(expected, actual);
