@@ -12,7 +12,7 @@ namespace Cadmean.RPC
         {
             var content = new ByteArrayContent(data);
             content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-            content.Headers.Add("Cadmean-RPC-Version", "2.1");
+            content.Headers.Add("Cadmean-RPC-Version", "3.0");
             
             var message = new HttpRequestMessage(HttpMethod.Post, url) {Content = content};
 
