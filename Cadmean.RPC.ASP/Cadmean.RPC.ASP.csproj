@@ -7,7 +7,7 @@
         <Title>Cadmean.RPC.ASP</Title>
         <Description>Server RPC library for ASP.NET Core</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>cadRPC 3.0: string errors. Add asserts.</PackageReleaseNotes>
+        <PackageReleaseNotes>cadRPC 3.0: string errors. Add asserts. RpcAuthorize attribute can be used on a controller. Add list parameter support.</PackageReleaseNotes>
         <Authors>Cadmean</Authors>
         <PackageProjectUrl>https://github.com/cadmean-ru/csharpRPCKit</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/cadmean-ru/csharpRPCKit/blob/master/LICENSE</PackageLicenseUrl>

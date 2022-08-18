@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Xunit;
 using Xunit.Abstractions;
@@ -76,6 +77,17 @@ namespace Cadmean.RPC.Tests
             Assert.True(string.IsNullOrEmpty(output.Error));
             var actual = output.Result;
             testOutputHelper.WriteLine(actual.ToString(CultureInfo.InvariantCulture));
+            Assert.Equal(expected, actual);
+        }
+        
+        [Fact]
+        public async void ShouldCallTestFunction_ListSum()
+        {
+            var expected = 21;
+            var list = new List<int> {10, 5, 6};
+            var output = await rpc.Function("test.listSum").Call<int>(list);
+            Assert.True(string.IsNullOrEmpty(output.Error));
+            var actual = output.Result;
             Assert.Equal(expected, actual);
         }
     }

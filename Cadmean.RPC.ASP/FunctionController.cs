@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -84,15 +85,7 @@ namespace Cadmean.RPC.ASP
                 {
                     var arg = Call.Arguments[i];
                     var parameter = parameters[i];
-                    switch (arg)
-                    {
-                        case JObject json:
-                            args[i] = json.ToObject(parameter.ParameterType);
-                            break;
-                        default:
-                            args[i] = TryConvertArgumentToParameterType(arg, parameter.ParameterType);
-                            break;
-                    }
+                    args[i] = ConvertArgumentToParameterType(arg, parameter.ParameterType);
                 }
             }
             else
@@ -103,7 +96,17 @@ namespace Cadmean.RPC.ASP
             return args;
         }
 
-        private static object TryConvertArgumentToParameterType(object arg, Type parameterType)
+        private static object ConvertArgumentToParameterType(object arg, Type parameterType)
+        {
+            return arg switch
+            {
+                JObject json => json.ToObject(parameterType),
+                JArray array => ConvertArrayArgumentToListParameterType(array, parameterType),
+                _ => ConvertArgumentToSimpleParameterType(arg, parameterType)
+            };
+        }
+        
+        private static object ConvertArgumentToSimpleParameterType(object arg, Type parameterType)
         {
             if (parameterType == typeof(int))
             {
@@ -129,7 +132,39 @@ namespace Cadmean.RPC.ASP
             
             return arg;
         }
-        
+
+        private static object ConvertArrayArgumentToListParameterType(JArray arr, Type parameterType)
+        {
+            var elementTypes = parameterType.GetGenericArguments();
+            if (elementTypes.Length == 0)
+            {
+                return null;
+            }
+
+            var elementType = elementTypes[0];
+            
+            var listType = typeof(IList<>);
+            listType = listType.MakeGenericType(elementType);
+            if (!listType.IsAssignableFrom(parameterType))
+            {
+                return null;
+            }
+            
+            var list = Activator.CreateInstance(parameterType);
+            if (list == null)
+            {
+                return null;
+            }
+            
+            var add = parameterType.GetMethod("Add")!;
+
+            foreach (var e in arr)
+            {
+                add.Invoke(list, new []{ ConvertArgumentToParameterType(e, elementType) });
+            }
+
+            return list;
+        }
         
         private async Task<FunctionOutput> TryCallFunction(MethodInfo callMethod, object[] args)
         {
