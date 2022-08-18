@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Cadmean.RPC.Exceptions;
 
 namespace Cadmean.RPC
 {

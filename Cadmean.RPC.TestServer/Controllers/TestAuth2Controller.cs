@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Cadmean.CoreKit.Authentication;
 using Cadmean.RPC.ASP;
+using Cadmean.RPC.Exceptions;
 
 namespace Cadmean.RPC.TestServer.Controllers
 {

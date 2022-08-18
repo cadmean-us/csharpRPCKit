@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Cadmean.RPC.ASP
 {
@@ -34,6 +35,41 @@ namespace Cadmean.RPC.ASP
         internal CachedFunctionInfo GetCachedFunctionInfo(string name)
         {
             return functionInfoCache.ContainsKey(name) ? functionInfoCache[name] : null;
+        }
+
+        private readonly Dictionary<string, List<Action<FunctionOutput>>> callbacks = new();
+
+        internal void WatchFunctionOutput(string functionName, Action<FunctionOutput> callback)
+        {
+            List<Action<FunctionOutput>> callbacksList;
+            if (callbacks.ContainsKey(functionName))
+            {
+                callbacksList = callbacks[functionName];
+            }
+            else
+            {
+                callbacksList = new();
+                callbacks[functionName] = callbacksList;
+            }
+
+            if (!callbacksList.Contains(callback))
+            {
+                callbacksList.Add(callback);
+            }
+        }
+
+        internal void SubmitFunctionOutput(string functionName, FunctionOutput output)
+        {
+            if (!callbacks.ContainsKey(functionName))
+            {
+                return;
+            }
+            
+            var callbacksList = callbacks[functionName];
+            foreach (var callback in callbacksList)
+            {
+                callback(output);
+            }
         }
     }
 }

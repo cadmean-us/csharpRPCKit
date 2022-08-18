@@ -45,6 +45,7 @@ namespace Cadmean.RPC.TestServer
             }
             
             app.UseRouting();
+            app.UseWebSockets();
             app.UseRpc();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

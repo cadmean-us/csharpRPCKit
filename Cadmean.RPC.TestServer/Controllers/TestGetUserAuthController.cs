@@ -1,4 +1,5 @@
 ﻿using Cadmean.RPC.ASP;
+using Cadmean.RPC.Exceptions;
 using Cadmean.RPC.Tests;
 using Microsoft.AspNetCore.Mvc;
 

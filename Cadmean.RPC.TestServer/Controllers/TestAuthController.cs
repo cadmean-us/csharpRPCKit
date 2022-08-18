@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Cadmean.RPC.ASP;
+using Cadmean.RPC.Exceptions;
 
 namespace Cadmean.RPC.TestServer.Controllers
 {

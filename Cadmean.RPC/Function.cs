@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Cadmean.RPC.Exceptions;
 using Newtonsoft.Json.Linq;
 
 namespace Cadmean.RPC
@@ -77,6 +78,11 @@ namespace Cadmean.RPC
             {
                 throw new FunctionException(output.Error);
             }
+        }
+
+        public async Task Subscribe()
+        {
+            //todo use ISubscruber
         }
 
         private async Task<byte[]> ConstructCallAndSend(object[] functionArguments)

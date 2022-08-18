@@ -1,4 +1,5 @@
 using System;
+using Cadmean.RPC.Exceptions;
 
 namespace Cadmean.RPC.ASP.Helpers;
 

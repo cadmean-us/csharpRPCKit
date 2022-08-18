@@ -6,6 +6,7 @@
         public ICodecProvider Codec;
         public IFunctionUrlProvider FunctionUrlProvider;
         public IAuthorizationTicketHolder AuthorizationTicketHolder;
+        public IFunctionSubscriber FunctionSubscriber;
 
         internal static RpcConfiguration Default = new RpcConfiguration
         {
@@ -13,8 +14,7 @@
             Codec = new JsonCodecProvider(),
             FunctionUrlProvider = new DefaultFunctionUrlProvider(),
             AuthorizationTicketHolder = new TransientAuthorizationTicketHolder(),
+            //todo: add default subscriber
         };
-        
-        
     }
 }
