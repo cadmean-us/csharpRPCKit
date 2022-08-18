@@ -29,7 +29,7 @@ There should be the same template in Visual Studio as well.
 
 ### Setup
 
-First, you need to add a few lines to your Startup class:
+First, you need to add a few lines to your Startup class. It should look like this:
 
 ```c#
 public void ConfigureServices(IServiceCollection services)
@@ -93,12 +93,12 @@ In other words, it can be just any C# method.
 #### Function naming
 
 Function name passed into the ```FunctionRoute``` attribute 
-may only contain english characters and one dot.
+may only contain english characters, numbers and one dot.
 For example, here are some valid function names:
 
 * sum
 * getDate
-* weatherForecast.get
+* weatherForecast.get213
 * user.getInfo
 
 The name of the function should represent some action. If the name contains dot, 
@@ -108,8 +108,8 @@ If the function name is invalid it won't work.
 #### Errors
 
 In cadRPC a function outputs some result object and an error code.
-Than you can than handle this error code on the client side. 
-The ```sum``` function above always returns 0 error code, indicating no error.
+Than you can then handle this error code on the client side. 
+The ```sum``` function above always returns empty error code, indicating no error.
 You can return a custom error from your function by throwing ```FunctionException```:
 
 ```c#
@@ -119,18 +119,16 @@ public class GetErrorController : FunctionController
     public string OnCall(bool throwError)
     {
         if (throwError)
-            throw new FunctionException(42);
+            throw new FunctionException("some_error");
 
         return "no error";
     }
 }
 ```
 
-The function above can return an error with code 42. 
+The function above can return an error with code "some_error". 
 You will need to handle this error on client side.
-You can use any positive numbers for your error codes 
-(negative error codes are reserved for cadRPC errors). 
-You define what these codes mean yourself.
+You can use any string for your error codes.
 
 ### More examples of function controllers
 
@@ -274,7 +272,7 @@ Key moments here:
 1. You can see an example of async function here
 1. This function returns a POCO object
 1. ```RpcAuthorize``` indicates, that this function can be called only when authorized. 
-Otherwise function call will result in an error (code -600).
+Otherwise function call will result in an error ("authorization_error").
 1. The ```Call``` property is part of ```FunctionController``` class and 
 represents the call object received from client. We use it's ```Authorization``` 
 to get the access token.

@@ -14,11 +14,10 @@ Or just use nuget GUI in your IDE.
 
 ## How to use
 
-An example is worth a thousand words. Note, you can run the examples yourself, as 
-they call functions of the example server at testrpc.cadmean.ru.
+An example is worth a thousand words.
 
 ```c#
-var rpc = new RpcClient("http://testrpc.cadmean.ru");
+var rpc = new RpcClient("http://testrpc.cadmean.dev");
 try 
 {
     var sum = await rpc.Function("sum").CallThrowing<int>(a, b);
@@ -37,10 +36,8 @@ to call the specified function. The generic argument is the expected result type
 `functionArguments` are the arguments you pass to the RPC function. 
 The ```CallThrowing``` method returns function result. 
 If the functions returns an error ```FunctionException``` is thrown. 
-In this case we are calling the "sum" function at testrpc.cadmean.ru, that takes two integers and 
+In this case we are calling the "sum" function at testrpc.cadmean.dev, that takes two integers and 
 returns an integer.
-Note, that the [example rpc server](https://github.com/cadmean-ru/ExampleRpcServer) 
-is running at testrpc.cadmean.ru.
 You can also use your custom POCO classes as function's arguments and return type.
 
 ## Authorization
