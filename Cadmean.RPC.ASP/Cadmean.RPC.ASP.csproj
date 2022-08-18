@@ -3,11 +3,11 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.3.4</PackageVersion>
+        <PackageVersion>0.4.0</PackageVersion>
         <Title>Cadmean.RPC.ASP</Title>
         <Description>Server RPC library for ASP.NET Core</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Small fixes.</PackageReleaseNotes>
+        <PackageReleaseNotes>cadRPC 3.0: string errors. Add asserts.</PackageReleaseNotes>
         <Authors>Cadmean</Authors>
         <PackageProjectUrl>https://github.com/cadmean-ru/csharpRPCKit</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/cadmean-ru/csharpRPCKit/blob/master/LICENSE</PackageLicenseUrl>
