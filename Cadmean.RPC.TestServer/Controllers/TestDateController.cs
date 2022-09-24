@@ -1,5 +1,6 @@
 ﻿using System;
 using Cadmean.RPC.ASP;
+using Cadmean.RPC.ASP.Attributes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cadmean.RPC.TestServer.Controllers

@@ -10,6 +10,12 @@
             ServerUrl = serverUrl;
         }
 
+        public RpcClient(string serverUrl, RpcConfiguration configuration)
+        {
+            ServerUrl = serverUrl;
+            Configuration = configuration;
+        }
+
         public Function Function(string name)
         {
             return new Function(name, this);

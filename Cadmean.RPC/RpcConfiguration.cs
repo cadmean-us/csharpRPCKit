@@ -7,14 +7,12 @@
         public IFunctionUrlProvider FunctionUrlProvider;
         public IAuthorizationTicketHolder AuthorizationTicketHolder;
 
-        internal static RpcConfiguration Default = new RpcConfiguration
+        internal static RpcConfiguration Default = new()
         {
             Transport = new HttpTransportProvider(),
             Codec = new JsonCodecProvider(),
             FunctionUrlProvider = new DefaultFunctionUrlProvider(),
             AuthorizationTicketHolder = new TransientAuthorizationTicketHolder(),
         };
-        
-        
     }
 }

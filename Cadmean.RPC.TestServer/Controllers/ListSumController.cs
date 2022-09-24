@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cadmean.RPC.ASP;
+using Cadmean.RPC.ASP.Attributes;
 
 namespace Cadmean.RPC.TestServer.Controllers;
 

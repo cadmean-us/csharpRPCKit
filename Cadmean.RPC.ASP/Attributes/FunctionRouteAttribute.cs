@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Cadmean.RPC.ASP
+namespace Cadmean.RPC.ASP.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class FunctionRouteAttribute : RouteAttribute
