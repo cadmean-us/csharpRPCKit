@@ -1,106 +1,19 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Cadmean.RPC.CLI.Commands;
 
-namespace Cadmean.RPC.CLI
+namespace Cadmean.RPC.CLI;
+
+public static class Program
 {
-    public static class Program
+    public static async Task Main(string[] args)
     {
-        private static bool repeat;
+        CommandsList.Init();
         
-        private static string serverName = "";
-        private static string functionName = "";
-        private static string[] functionArgs;
-        
-        public static async Task Main(string[] args)
-        {
-            if (args.Length == 0)
-            {
-                await LaunchInteractiveMode();
-            }
-            else
-            {
-                int i = 0;
-                int c = 0;
+        var commandName = args.Length == 0 ? "help" : args[0];
+        var command = CommandsList.All.FirstOrDefault(c => c.Name == commandName) ?? 
+                      CommandsList.All.First(c => c.Name == "help");
 
-                foreach (var arg in args)
-                {
-                    switch (arg)
-                    {
-                        case "-r":
-                            repeat = true;
-                            break;
-                        default:
-                            switch (c)
-                            {
-                                case 0:
-                                    serverName = arg switch
-                                    {
-                                        "local" => "http://localhost:80",
-                                        ":80" => "http://localhost:80",
-                                        ":5000" => "http://localhost:5000",
-                                        "test" => "http://testrpc.cadmean.ru",
-                                        _ => arg,
-                                    };
-                                    break;
-                                case 1:
-                                    functionName = arg;
-                                    break;
-                                default:
-                                    functionArgs = args.Skip(i).ToArray();
-                                    break;
-                            }
-
-                            c++;
-                            break;
-                    }
-
-                    i++;
-                }
-
-                if (c < 2)
-                    await LaunchInteractiveMode();
-                else
-                    await CallSender.Send(serverName, functionName, functionArgs);
-            }
-        }
-
-
-        private static async Task LaunchInteractiveMode()
-        {
-            while (true)
-            {
-                if (string.IsNullOrEmpty(serverName))
-                {
-                    Console.Write("Enter server url: ");
-                    var sn = Console.ReadLine();
-                    serverName = sn switch
-                    {
-                        "" => "http://localhost:5000",
-                        ":80" => "http://localhost:80",
-                        ":5000" => "http://localhost:5000",
-                        "test" => "http://testrpc.cadmean.ru",
-                        _ => sn
-                    };
-                }
-
-                if (string.IsNullOrEmpty(functionName))
-                {
-                    Console.Write("Enter function name: "); 
-                    functionName = Console.ReadLine();
-                }
-
-                Console.Write("Enter function arguments: ");
-                var args = Console.ReadLine()?.Split(' ');
-                await CallSender.Send(serverName, functionName, args);
-
-                if (repeat)
-                {
-                    functionName = "";
-                    continue;
-                }
-                break;
-            }
-        }
+        await command.Execute(args.Skip(1).ToArray());
     }
 }
