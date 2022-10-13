@@ -9,7 +9,7 @@ namespace Cadmean.RPC.TestServer.Controllers
     {
         private Task<JwtAuthorizationTicket> OnCall(string email, string password)
         {
-            if (email != "krit.allyosha@gmail.com" || password != "bruh") 
+            if (email != "email@example.com" || password != "password") 
                 throw new FunctionException("invalid_credentials");
             
             return Task.FromResult(new JwtAuthorizationTicket("access", "refresh"));

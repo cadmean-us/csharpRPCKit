@@ -17,8 +17,8 @@ namespace Cadmean.RPC.Tests
         [Fact]
         public async void ShouldCallTestFunction_Auth()
         {
-            const string email = "krit.allyosha@gmail.com";
-            const string pass = "bruh";
+            const string email = "email@example.com";
+            const string pass = "password";
             
             var expected = new JwtAuthorizationTicket("access", "refresh");
             const string expectedResultType = "Cadmean.RPC.JwtAuthorizationTicket";
@@ -41,7 +41,7 @@ namespace Cadmean.RPC.Tests
         public async void ShouldThrowOnCallTestFunction_Auth()
         {
             const string email = "test@test.test";
-            const string pass = "test";
+            const string pass = "password";
             
             const string expectedError = "invalid_credentials";
             
@@ -54,8 +54,8 @@ namespace Cadmean.RPC.Tests
         [Fact]
         public async void ShouldAuthenticateAndCallTestFunction_GetUserAuth()
         {
-            const string email = "krit.allyosha@gmail.com";
-            const string pass = "bruh";
+            const string email = "email@example.com";
+            const string pass = "password";
             
             var expected = new PocoRpcFunctionTests.User
             {
@@ -76,7 +76,7 @@ namespace Cadmean.RPC.Tests
         [Fact]
         public async void ShouldReturnErrorWithoutAuthorization()
         {
-            const string email = "krit.allyosha@gmail.com";
+            const string email = "email@example.com";
 
             var expectedError = RpcErrorCode.AuthorizationError.Description();
 

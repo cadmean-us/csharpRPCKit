@@ -12,7 +12,7 @@ namespace Cadmean.RPC.TestServer.Controllers
     {
         public PocoRpcFunctionTests.User OnCall(string email)
         {
-            if (email == "krit.allyosha@gmail.com")
+            if (email == "email@example.com")
             {
                 return new PocoRpcFunctionTests.User
                 {

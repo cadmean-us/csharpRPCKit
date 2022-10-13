@@ -12,7 +12,7 @@ namespace Cadmean.RPC.TestServer.Controllers
     {
         public Task<JwtAuthorizationTicket> OnCall(string email, string password)
         {
-            if (email != "krit.allyosha@gmail.com" || password != "bruh") 
+            if (email != "email@example.com" || password != "password") 
                 throw new FunctionException("invalid_credentials");
             
             var accessToken = new JwtToken(JwtAuthorizationOptions.Default, new List<Claim>(), "cadmean");
