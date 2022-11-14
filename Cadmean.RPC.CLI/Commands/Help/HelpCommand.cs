@@ -22,7 +22,7 @@ public class HelpCommand : ICommand
                                                                                                                   ");
         
         Console.WriteLine(@"Usage:
-dotnet cadrpc <command> [args]
+cadrpc <command> [args]
 ");
 
         Console.WriteLine("Available commands:\n");
