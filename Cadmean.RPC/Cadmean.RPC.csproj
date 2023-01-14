@@ -3,12 +3,12 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.4.1</PackageVersion>
+        <PackageVersion>0.4.2</PackageVersion>
         <Title>Cadmean.RPC</Title>
         <Authors>Cadmean</Authors>
         <Description>RPC library for calling API functions.</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Add client constructor with RpcConfiguration.</PackageReleaseNotes>
+        <PackageReleaseNotes>Updated to .NET 7.</PackageReleaseNotes>
         <PackageProjectUrl>https://github.com/cadmean-ru/csharpRPCKit</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/cadmean-ru/csharpRPCKit/blob/master/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/cadmean-ru/csharpRPCKit.git</RepositoryUrl>

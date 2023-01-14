@@ -3,11 +3,11 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.4.1</PackageVersion>
+        <PackageVersion>0.4.2</PackageVersion>
         <Title>Cadmean.RPC.ASP</Title>
         <Description>Server RPC library for ASP.NET Core</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Move attributes to separate namespace.</PackageReleaseNotes>
+        <PackageReleaseNotes>Updated to .NET 7. Changed output metadata.</PackageReleaseNotes>
         <Authors>Cadmean</Authors>
         <PackageProjectUrl>https://github.com/cadmean-ru/csharpRPCKit</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/cadmean-ru/csharpRPCKit/blob/master/LICENSE</PackageLicenseUrl>
