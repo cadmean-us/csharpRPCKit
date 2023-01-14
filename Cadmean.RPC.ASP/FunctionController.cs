@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -241,9 +240,8 @@ namespace Cadmean.RPC.ASP
 
             if (RpcService.Configuration.DebugMode)
             {
-                output.MetaData["clrResultType"] = output.Result?.GetType().FullName;
-                output.MetaData["internalException"] = internalException?.GetType().FullName;
-                output.MetaData["exceptionStackTrace"] = internalException?.StackTrace;
+                output.MetaData["dotnetResultType"] = output.Result?.GetType().FullName;
+                output.MetaData["dotnetException"] = internalException?.ToString();
             }
             
             return output;
