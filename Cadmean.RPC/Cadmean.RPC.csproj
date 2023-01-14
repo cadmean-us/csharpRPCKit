@@ -8,6 +8,7 @@
         <Authors>Cadmean</Authors>
         <Description>RPC library for calling API functions.</Description>
         <Copyright>Cadmean</Copyright>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageReleaseNotes>Updated to .NET 7.</PackageReleaseNotes>
         <PackageProjectUrl>https://github.com/cadmean-ru/csharpRPCKit</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/cadmean-ru/csharpRPCKit/blob/master/LICENSE</PackageLicenseUrl>

@@ -9,6 +9,7 @@
         <Copyright>Cadmean</Copyright>
         <PackageReleaseNotes>Updated to .NET 7. Changed output metadata.</PackageReleaseNotes>
         <Authors>Cadmean</Authors>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageProjectUrl>https://github.com/cadmean-ru/csharpRPCKit</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/cadmean-ru/csharpRPCKit/blob/master/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/cadmean-ru/csharpRPCKit.git</RepositoryUrl>
