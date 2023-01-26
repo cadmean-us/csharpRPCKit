@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Cadmean.RPC.ASP
 {
-    public class FunctionController : ControllerBase
+    public class FunctionController : ControllerBase, IDisposable
     {
         protected FunctionCall Call { get; private set; }
         protected RpcService RpcService { get; private set; }
@@ -245,6 +245,11 @@ namespace Cadmean.RPC.ASP
             }
             
             return output;
+        }
+
+        public virtual void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }
