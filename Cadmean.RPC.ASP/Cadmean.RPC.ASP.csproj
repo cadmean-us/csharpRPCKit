@@ -3,19 +3,19 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.4.3</PackageVersion>
+        <PackageVersion>0.4.4</PackageVersion>
         <Title>Cadmean.RPC.ASP</Title>
         <Description>Server RPC library for ASP.NET Core</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Implemented IDisposable on FunctionController</PackageReleaseNotes>
+        <PackageReleaseNotes>Updated RpcAssert</PackageReleaseNotes>
         <Authors>Cadmean</Authors>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageProjectUrl>https://github.com/cadmean-ru/csharpRPCKit</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/cadmean-ru/csharpRPCKit/blob/master/LICENSE</PackageLicenseUrl>
-        <RepositoryUrl>https://github.com/cadmean-ru/csharpRPCKit.git</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/cadmean-us/csharpRPCKit</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/cadmean-us/csharpRPCKit.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>RPC Cadmean</PackageTags>
         <LangVersion>11</LangVersion>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>
