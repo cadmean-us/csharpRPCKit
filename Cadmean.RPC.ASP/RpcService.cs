@@ -1,39 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Cadmean.RPC.ASP
+namespace Cadmean.RPC.ASP;
+
+public class RpcService
 {
-    public class RpcService
-    {
-        internal readonly RpcServerConfiguration Configuration;
+    internal readonly RpcServerConfiguration Configuration;
         
-        private readonly Dictionary<string, CachedFunctionInfo> functionInfoCache = 
-            new Dictionary<string, CachedFunctionInfo>();
+    private readonly Dictionary<string, CachedFunctionInfo?> functionInfoCache = new();
 
+    internal RpcService()
+    {
+        Configuration = new RpcServerConfiguration();
+        AnalyzeFunctions();
+    }
 
-        internal RpcService()
+    internal RpcService(RpcServerConfiguration configuration)
+    {
+        Configuration = configuration;
+        AnalyzeFunctions();
+    }
+
+    private void AnalyzeFunctions()
+    {
+        var analyzer = new FunctionsAnalyzer(Configuration);
+        foreach (var info in analyzer.GetFunctionInfos())
         {
-            Configuration = new RpcServerConfiguration();
-            AnalyzeFunctions();
+            functionInfoCache.Add(info.Name, info);
         }
+    }
 
-        internal RpcService(RpcServerConfiguration configuration)
-        {
-            Configuration = configuration;
-            AnalyzeFunctions();
-        }
+    internal CachedFunctionInfo? GetCachedFunctionInfo(string name)
+    {
+        return functionInfoCache.ContainsKey(name) ? functionInfoCache[name] : null;
+    }
 
-        private void AnalyzeFunctions()
-        {
-            var analyzer = new FunctionsAnalyzer(Configuration);
-            foreach (var info in analyzer.GetFunctionInfos())
-            {
-                functionInfoCache.Add(info.Name, info);
-            }
-        }
-
-        internal CachedFunctionInfo GetCachedFunctionInfo(string name)
-        {
-            return functionInfoCache.ContainsKey(name) ? functionInfoCache[name] : null;
-        }
+    internal void InvokeExceptionHandler(Exception ex)
+    {
+        Configuration.ExceptionHandler?.Invoke(ex);
     }
 }
