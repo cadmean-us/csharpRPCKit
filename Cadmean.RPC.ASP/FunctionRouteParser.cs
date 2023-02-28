@@ -4,7 +4,7 @@ namespace Cadmean.RPC.ASP
 {
     internal static class FunctionRouteParser
     {
-        internal static bool IsValidRpcRoute(string route, RpcServerConfiguration configuration)
+        internal static bool IsValidRpcRoute(string? route, RpcServerConfiguration configuration)
         {
             if (route == null)
                 return false;

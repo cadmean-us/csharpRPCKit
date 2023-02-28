@@ -3,11 +3,11 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.4.5</PackageVersion>
+        <PackageVersion>0.4.6</PackageVersion>
         <Title>Cadmean.RPC.ASP</Title>
         <Description>Server RPC library for ASP.NET Core</Description>
         <Copyright>Cadmean</Copyright>
-        <PackageReleaseNotes>Added exception handler.</PackageReleaseNotes>
+        <PackageReleaseNotes>Added controllers search in all asseblies.</PackageReleaseNotes>
         <Authors>Cadmean</Authors>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageProjectUrl>https://github.com/cadmean-us/csharpRPCKit</PackageProjectUrl>

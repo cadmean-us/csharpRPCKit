@@ -22,13 +22,16 @@ namespace Cadmean.RPC.ASP
         {
             var infos = new List<CachedFunctionInfo>();
 
-            foreach (var controllerType in GetFunctionControllerDerivedTypes(Assembly.GetEntryAssembly()))
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                var info = AnalyzeFunctionControllerType(controllerType);
-                if (info != null)
-                    infos.Add(info);
+                foreach (var controllerType in GetFunctionControllerDerivedTypes(assembly))
+                {
+                    var info = AnalyzeFunctionControllerType(controllerType);
+                    if (info != null)
+                        infos.Add(info);
+                }
             }
-            
+
             LogFoundFunctions(infos);
             
             return infos;
@@ -40,7 +43,7 @@ namespace Cadmean.RPC.ASP
                 .Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(FunctionController)));
         }
 
-        private CachedFunctionInfo AnalyzeFunctionControllerType(Type controllerType)
+        private CachedFunctionInfo? AnalyzeFunctionControllerType(Type controllerType)
         {
             var method = FindOnCallMethod(controllerType);
             if (method == null) return null;
@@ -50,7 +53,7 @@ namespace Cadmean.RPC.ASP
             if (!FunctionRouteParser.IsValidRpcRoute(path, rpcServerConfiguration))
                 return null;
 
-            var name = FunctionRouteParser.GetFunctionName(path, rpcServerConfiguration);
+            var name = FunctionRouteParser.GetFunctionName(path!, rpcServerConfiguration);
             if (!FunctionRouteParser.IsValidFunctionName(name))
                 return null;
 
@@ -58,7 +61,7 @@ namespace Cadmean.RPC.ASP
             {
                 CallMethod = method,
                 Name = name,
-                Path = path,
+                Path = path!,
                 IsCallMethodAsync = IsMethodAsync(method),
                 RequiresAuthorization = FunctionRequiresAuthorization(controllerType, method),
             };
@@ -66,7 +69,7 @@ namespace Cadmean.RPC.ASP
             return info;
         }
 
-        private static string ResolveRoute(Type controllerType)
+        private static string? ResolveRoute(Type controllerType)
         {
             if (controllerType.GetCustomAttribute(typeof(FunctionRouteAttribute)) is FunctionRouteAttribute functionRoute)
             {
@@ -81,7 +84,7 @@ namespace Cadmean.RPC.ASP
             return null;
         }
 
-        private static MethodInfo FindOnCallMethod(Type controllerType)
+        private static MethodInfo? FindOnCallMethod(Type controllerType)
         {
             return controllerType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                 .FirstOrDefault(m => 
